@@ -43,7 +43,6 @@ function Header() {
 
           <button className="header-icon-btn" aria-label="Carrinho">
             <i className="fa-solid fa-cart-shopping"></i>
-            <span className="header-cart-badge">2</span>
           </button>
 
           <button
