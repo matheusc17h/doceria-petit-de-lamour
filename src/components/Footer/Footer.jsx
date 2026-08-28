@@ -1,4 +1,5 @@
 import "./Footer.css";
+import logo1 from "../../img/logo1.png";
 
 function Footer() {
   return (
@@ -27,7 +28,7 @@ function Footer() {
         <div className="footer-body">
 
           <div className="footer-brand">
-            <img src="/src/img/logo1.png" alt="Petit de L'Amour" className="footer-logo" />
+            <img src={logo1} alt="Petit de L'Amour" className="footer-logo" />
             <p className="footer-brand-desc">
               Pequenas criações feitas para transformar qualquer ocasião em algo especial.
             </p>

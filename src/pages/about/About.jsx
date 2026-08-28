@@ -1,5 +1,6 @@
 import React from "react";
 import "./About.css";
+import logo1 from "../../img/logo1.png";
 
 function About() {
   return (
@@ -63,7 +64,7 @@ function About() {
             </p>
           </div>
           <div className="about-block-image">
-            <img src="/src/img/logo1.png" alt="Petit de L'Amour" />
+            <img src={logo1} alt="Petit de L'Amour" />
           </div>
         </div>
       </section>

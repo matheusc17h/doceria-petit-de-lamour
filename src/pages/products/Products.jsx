@@ -1,28 +1,36 @@
 import "./Products.css";
+import coneKinder from "../../img/cone-kinder.png";
+import coneOvomaltine from "../../img/cone-ovomaltine.png";
+import coneOuroBranco from "../../img/cone-ourob.png";
+import coneFerrero from "../../img/cone-ferrero1.png";
+import logo2 from "../../img/logo2.png";
+import bolo1 from "../../img/bolo1.png";
+import bolo2 from "../../img/bolo2.png";
+import bolo3 from "../../img/bolo3.png";
 
 const cones = [
-  { id: 1, name: "Kinder Bueno", price: "R$ 15,00", img: "/src/img/cone-kinder.png" },
-  { id: 2, name: "Ovomaltine", price: "R$ 15,00", img: "/src/img/cone-ovomaltine.png" },
-  { id: 3, name: "Ouro Branco", price: "R$ 15,00", img: "/src/img/cone-ourob.png" },
-  { id: 4, name: "Ferrero Rocher", price: "R$ 15,00", img: "/src/img/cone-ferrero1.png" },
-  { id: 5, name: "Cookies & Cream", price: "R$ 15,00", img: "/src/img/logo2.png" },
-  { id: 6, name: "Prestígio", price: "R$ 15,00", img: "/src/img/logo2.png" },
-  { id: 7, name: "Maracujá", price: "R$ 15,00", img: "/src/img/logo2.png" },
-  { id: 8, name: "Morango", price: "R$ 15,00", img: "/src/img/logo2.png" },
+  { id: 1, name: "Kinder Bueno", price: "R$ 15,00", img: coneKinder },
+  { id: 2, name: "Ovomaltine", price: "R$ 15,00", img: coneOvomaltine },
+  { id: 3, name: "Ouro Branco", price: "R$ 15,00", img: coneOuroBranco },
+  { id: 4, name: "Ferrero Rocher", price: "R$ 15,00", img: coneFerrero },
+  { id: 5, name: "Cookies & Cream", price: "R$ 15,00", img: logo2 },
+  { id: 6, name: "Prestígio", price: "R$ 15,00", img: logo2 },
+  { id: 7, name: "Maracujá", price: "R$ 15,00", img: logo2 },
+  { id: 8, name: "Morango", price: "R$ 15,00", img: logo2 },
 ];
 
 const bolos = [
-  { id: 1, name: "Brigadeiro Gourmet", price: "R$ 120,00", img: "/src/img/bolo1.png" },
-  { id: 2, name: "Morango com Leite Ninho", price: "R$ 130,00", img: "/src/img/bolo2.png" },
-  { id: 3, name: "Chocolate", price: "R$ 110,00", img: "/src/img/bolo3.png" },
-  { id: 4, name: "Baunilha", price: "R$ 110,00", img: "/src/img/bolo4.png" },
+  { id: 1, name: "Brigadeiro Gourmet", price: "R$ 120,00", img: bolo1 },
+  { id: 2, name: "Morango com Leite Ninho", price: "R$ 130,00", img: bolo2 },
+  { id: 3, name: "Chocolate", price: "R$ 110,00", img: bolo3 },
+  { id: 4, name: "Baunilha", price: "R$ 110,00", img: bolo3 },
 ];
 
 const ovos = [
-  { id: 1, name: "Brigadeiro Gourmet", price: "R$ 45,00", img: "/src/img/logo2.png" },
-  { id: 2, name: "Prestígio", price: "R$ 45,00", img: "/src/img/logo2.png" },
-  { id: 3, name: "Ninho com Morango", price: "R$ 50,00", img: "/src/img/logo2.png" },
-  { id: 4, name: "Kinder Bueno", price: "R$ 55,00", img: "/src/img/logo2.png" },
+  { id: 1, name: "Brigadeiro Gourmet", price: "R$ 45,00", img: logo2 },
+  { id: 2, name: "Prestígio", price: "R$ 45,00", img: logo2 },
+  { id: 3, name: "Ninho com Morango", price: "R$ 50,00", img: logo2 },
+  { id: 4, name: "Kinder Bueno", price: "R$ 55,00", img: logo2 },
 ];
 
 function ProductCard({ name, price, img }) {

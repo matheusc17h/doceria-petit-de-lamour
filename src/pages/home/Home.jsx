@@ -5,6 +5,9 @@ import home2 from "../../img/home2.png";
 import home3 from "../../img/home3.jpg";
 import home4 from "../../img/home4.png";
 import home5 from "../../img/home5.png";
+import conesImg from "../../img/cones.png";
+import ovosImg from "../../img/ovos.png";
+import bolosImg from "../../img/bolos.png";
 import { gsap, ScrollTrigger, SplitText } from "../../lib/gsap";
 
 function Home() {
@@ -261,7 +264,7 @@ function Home() {
 
         <div className="produto-card">
 
-          <img src="/src/img/cones.png" alt="Cones Trufados" />
+          <img src={conesImg} alt="Cones Trufados" />
           <div className="produto-info">
             <h2>Cones Trufados</h2>
             <ul>
@@ -274,7 +277,7 @@ function Home() {
         </div>
 
         <div className="produto-card">
-          <img src="/src/img/ovos.png" alt="Ovos de Páscoa" />
+          <img src={ovosImg} alt="Ovos de Páscoa" />
           <div className="produto-info">
             <h2>Ovos de Páscoa</h2>
             <ul>
@@ -287,7 +290,7 @@ function Home() {
         </div>
 
         <div className="produto-card">
-          <img src="/src/img/bolos.png" alt="Bolos" />
+          <img src={bolosImg} alt="Bolos" />
           <div className="produto-info">
             <h2>Nossos Bolos</h2>
             <ul>

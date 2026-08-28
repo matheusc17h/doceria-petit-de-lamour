@@ -245,7 +245,11 @@
         position: fixed;
         inset: 0;
         background: rgba(45, 16, 24, 0.35);
-        z-index: 30;
+        /* precisa ficar abaixo de 20 (o z-index do .header): .nav-links vive
+           dentro do .header, que cria seu próprio contexto de empilhamento,
+           então um overlay irmão com z-index maior que o do .header cobria
+           o menu e bloqueava os cliques nos links */
+        z-index: 15;
     }
 }
 
