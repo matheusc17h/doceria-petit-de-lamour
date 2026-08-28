@@ -1,0 +1,345 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,600&family=Cormorant+Garamond:wght@300;400&display=swap');
+
+/* ===== PRODUCTS HERO ===== */
+.products-hero {
+  background-color: #fcaec9;
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  padding: 120px 0 60px;
+  overflow: hidden;
+  position: relative;
+}
+
+.products-hero-deco-1 {
+  width: 440px;
+  height: 440px;
+  bottom: -180px;
+  right: -120px;
+}
+
+.products-hero-deco-2 {
+  width: 160px;
+  height: 160px;
+  top: 50px;
+  left: 6%;
+}
+
+.products-hero-deco-3 {
+  width: 100px;
+  height: 100px;
+  bottom: 40px;
+  left: 26%;
+}
+
+.products-hero-dots-1 {
+  width: 130px;
+  height: 130px;
+  bottom: 90px;
+  right: 8%;
+  opacity: 0.4;
+}
+
+.products-hero-spark-1 {
+  top: 90px;
+  right: 22%;
+  font-size: 14px;
+  animation-delay: 1.5s;
+}
+
+.products-hero-body {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 120px;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+.products-hero-content {
+  max-width: 660px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  color: #2d1018;
+}
+
+.products-hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 700;
+  line-height: 1.1;
+  margin: 0;
+  color: #2d1018;
+}
+
+.products-hero-title em {
+  font-style: italic;
+  color: #b5365a;
+}
+
+.products-hero-desc {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.products-hero-line {
+  width: 32px;
+  height: 1px;
+  background: rgba(90, 40, 50, 0.5);
+  margin-top: 12px;
+  flex-shrink: 0;
+}
+
+.products-hero-desc p {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  font-weight: 300;
+  font-style: italic;
+  color: rgba(45, 16, 24, 0.75);
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* ===== PRODUCTS MARQUEE ===== */
+.products-marquee {
+  background-color: #2a1a1a;
+  overflow: hidden;
+  padding: 12px 0;
+}
+
+.products-marquee-track {
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+}
+
+.products-marquee-content {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  white-space: nowrap;
+  animation: products-marquee 20s linear infinite;
+  font-family: serif;
+  font-style: italic;
+  font-size: 0.95rem;
+  color: #fdf6f0;
+  letter-spacing: 0.05em;
+}
+
+.products-diamond {
+  color: #c0504d;
+  font-style: normal;
+  font-size: 0.7rem;
+}
+
+@keyframes products-marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ===== TAG ===== */
+.products-tag {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #b5365a;
+}
+
+/* ===== SECTION ===== */
+.products-section {
+  background-color: #fdf6f0;
+  padding: 80px 0;
+}
+
+.products-section-alt {
+  background-color: #fcaec9;
+  position: relative;
+  overflow: hidden;
+}
+
+.products-alt-deco-1 {
+  width: 260px;
+  height: 260px;
+  top: -100px;
+  left: -60px;
+}
+
+.products-alt-deco-2 {
+  width: 190px;
+  height: 190px;
+  bottom: -80px;
+  right: 10%;
+}
+
+.products-alt-dots-1 {
+  width: 120px;
+  height: 120px;
+  top: 30px;
+  right: 26%;
+  opacity: 0.35;
+}
+
+.products-alt-spark-1 {
+  bottom: 60px;
+  left: 42%;
+  font-size: 13px;
+  animation-delay: 3.5s;
+}
+
+.products-section-body {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 120px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  position: relative;
+  z-index: 1;
+}
+
+.products-section-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.products-section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 3vw, 42px);
+  font-weight: 700;
+  color: #2d1018;
+  margin: 0;
+}
+
+.products-section-title em {
+  font-style: italic;
+  color: #b5365a;
+}
+
+/* ===== GRID ===== */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+/* ===== CARD ===== */
+.products-card {
+  background: #fff;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid rgba(45, 16, 24, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.products-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+}
+
+.products-card-img {
+  position: relative;
+  background: #fdf6f0;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 180px;
+}
+
+.products-card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 10px;
+}
+
+.products-card-btn {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  background: #2d1018;
+  color: #fdf6f0;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 12px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.products-card:hover .products-card-btn {
+  opacity: 1;
+}
+
+.products-card-content {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.products-card-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  color: #2d1018;
+  margin: 0;
+}
+
+.products-card-rating {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 13px;
+  color: rgba(45, 16, 24, 0.5);
+}
+
+.products-card-rating span {
+  margin-left: 4px;
+}
+
+.products-card-price {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #2d1018;
+  margin-top: 4px;
+}
+
+.products-card-price span {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 13px;
+  font-weight: 300;
+  color: rgba(45, 16, 24, 0.5);
+  margin-left: 4px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .products-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .products-hero-body,
+  .products-section-body {
+    padding: 0 24px;
+  }
+
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .products-grid {
+    grid-template-columns: 1fr;
+  }
+}
