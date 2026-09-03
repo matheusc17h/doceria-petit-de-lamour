@@ -1,11 +1,26 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./Header.css";
 import { Link, NavLink } from "react-router-dom";
 import logo from '../../img/logo.png'
+import { useCart } from "../../context/CartContext";
 
 function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const closeMenu = () => setMenuOpen(false);
+
+  const { totalCount } = useCart();
+  const [bump, setBump] = useState(false);
+  const firstRender = useRef(true);
+
+  useEffect(() => {
+    if (firstRender.current) {
+      firstRender.current = false;
+      return;
+    }
+    setBump(true);
+    const t = setTimeout(() => setBump(false), 300);
+    return () => clearTimeout(t);
+  }, [totalCount]);
 
   return (
     <>
@@ -41,8 +56,14 @@ function Header() {
             <i className="fa-solid fa-user"></i>
           </button>
 
-          <button className="header-icon-btn" aria-label="Carrinho">
+          <button
+            className={`header-icon-btn ${bump ? "header-icon-btn--bump" : ""}`}
+            aria-label={`Carrinho${totalCount > 0 ? `, ${totalCount} ${totalCount === 1 ? "item" : "itens"}` : ""}`}
+          >
             <i className="fa-solid fa-cart-shopping"></i>
+            {totalCount > 0 && (
+              <span className="header-cart-badge">{totalCount}</span>
+            )}
           </button>
 
           <button

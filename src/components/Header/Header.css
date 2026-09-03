@@ -137,6 +137,16 @@
     background: rgba(45, 16, 24, 0.06);
 }
 
+.header-icon-btn--bump i {
+    animation: header-cart-bump 0.3s ease;
+}
+
+@keyframes header-cart-bump {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.25); }
+    100% { transform: scale(1); }
+}
+
 .header-cart-badge {
     position: absolute;
     top: -2px;

@@ -282,6 +282,17 @@
   opacity: 1;
 }
 
+.products-card-btn--added {
+  background: #3a7d44;
+}
+
+/* Em telas touch não existe hover pra revelar o botão — deixa sempre visível */
+@media (hover: none) {
+  .products-card-btn {
+    opacity: 1;
+  }
+}
+
 .products-card-content {
   padding: 20px;
   display: flex;

@@ -1,4 +1,6 @@
+import { useState } from "react";
 import "./Products.css";
+import { useCart } from "../../context/CartContext";
 import coneKinder from "../../img/cone-kinder.png";
 import coneOvomaltine from "../../img/cone-ovomaltine.png";
 import coneOuroBranco from "../../img/cone-ourob.png";
@@ -33,12 +35,26 @@ const ovos = [
   { id: 4, name: "Kinder Bueno", price: "R$ 55,00", img: logo2 },
 ];
 
-function ProductCard({ name, price, img }) {
+function ProductCard({ id, name, price, img, category }) {
+  const { addItem } = useCart();
+  const [added, setAdded] = useState(false);
+
+  function handleAdd() {
+    addItem({ id, name, price, img, category });
+    setAdded(true);
+    setTimeout(() => setAdded(false), 1200);
+  }
+
   return (
     <div className="products-card">
       <div className="products-card-img">
         <img src={img} alt={name} />
-        <button className="products-card-btn">+ Pedido</button>
+        <button
+          className={`products-card-btn ${added ? "products-card-btn--added" : ""}`}
+          onClick={handleAdd}
+        >
+          {added ? "✓ Adicionado" : "+ Pedido"}
+        </button>
       </div>
       <div className="products-card-content">
         <h3 className="products-card-name">{name}</h3>
@@ -99,7 +115,7 @@ function Products() {
             <h2 className="products-section-title">Cones <em>Trufados</em></h2>
           </div>
           <div className="products-grid">
-            {cones.map((p) => <ProductCard key={p.id} {...p} />)}
+            {cones.map((p) => <ProductCard key={p.id} {...p} category="cones" />)}
           </div>
         </div>
       </section>
@@ -117,7 +133,7 @@ function Products() {
             <h2 className="products-section-title">Bolos <em>Artesanais</em></h2>
           </div>
           <div className="products-grid">
-            {bolos.map((p) => <ProductCard key={p.id} {...p} />)}
+            {bolos.map((p) => <ProductCard key={p.id} {...p} category="bolos" />)}
           </div>
         </div>
       </section>
@@ -130,7 +146,7 @@ function Products() {
             <h2 className="products-section-title">Ovos de Páscoa <em>Trufados</em></h2>
           </div>
           <div className="products-grid">
-            {ovos.map((p) => <ProductCard key={p.id} {...p} />)}
+            {ovos.map((p) => <ProductCard key={p.id} {...p} category="ovos" />)}
           </div>
         </div>
       </section>
