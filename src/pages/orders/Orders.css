@@ -326,6 +326,7 @@
 
   .orders-body {
     flex-direction: column;
+    align-items: stretch;
     gap: 48px;
   }
 
