@@ -1,66 +1,64 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Products.css";
 import { useCart } from "../../context/CartContext";
-import coneKinder from "../../img/cone-kinder.png";
-import coneOvomaltine from "../../img/cone-ovomaltine.png";
-import coneOuroBranco from "../../img/cone-ourob.png";
-import coneFerrero from "../../img/cone-ferrero1.png";
-import logo2 from "../../img/logo2.png";
-import bolo1 from "../../img/bolo1.png";
-import bolo2 from "../../img/bolo2.png";
-import bolo3 from "../../img/bolo3.png";
+import { useAuth } from "../../context/AuthContext";
+import { api } from "../../lib/api";
+import { imageFor } from "../../img/catalog";
 
-const cones = [
-  { id: 1, name: "Kinder Bueno", price: "R$ 15,00", img: coneKinder },
-  { id: 2, name: "Ovomaltine", price: "R$ 15,00", img: coneOvomaltine },
-  { id: 3, name: "Ouro Branco", price: "R$ 15,00", img: coneOuroBranco },
-  { id: 4, name: "Ferrero Rocher", price: "R$ 15,00", img: coneFerrero },
-  { id: 5, name: "Cookies & Cream", price: "R$ 15,00", img: logo2 },
-  { id: 6, name: "Prestígio", price: "R$ 15,00", img: logo2 },
-  { id: 7, name: "Maracujá", price: "R$ 15,00", img: logo2 },
-  { id: 8, name: "Morango", price: "R$ 15,00", img: logo2 },
+function formatBRL(cents) {
+  return (cents / 100).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+}
+
+const SECTIONS = [
+  { key: "cones", tag: "Mais Pedidos", title: ["Cones", "Trufados"] },
+  { key: "bolos", tag: "Sob Encomenda", title: ["Bolos", "Artesanais"], alt: true },
+  { key: "ovos", tag: "Páscoa", title: ["Ovos de Páscoa", "Trufados"] },
 ];
 
-const bolos = [
-  { id: 1, name: "Brigadeiro Gourmet", price: "R$ 120,00", img: bolo1 },
-  { id: 2, name: "Morango com Leite Ninho", price: "R$ 130,00", img: bolo2 },
-  { id: 3, name: "Chocolate", price: "R$ 110,00", img: bolo3 },
-  { id: 4, name: "Baunilha", price: "R$ 110,00", img: bolo3 },
-];
-
-const ovos = [
-  { id: 1, name: "Brigadeiro Gourmet", price: "R$ 45,00", img: logo2 },
-  { id: 2, name: "Prestígio", price: "R$ 45,00", img: logo2 },
-  { id: 3, name: "Ninho com Morango", price: "R$ 50,00", img: logo2 },
-  { id: 4, name: "Kinder Bueno", price: "R$ 55,00", img: logo2 },
-];
-
-function ProductCard({ id, name, price, img, category }) {
-  const { addItem } = useCart();
+function ProductCard({ product }) {
+  const { addProduct } = useCart();
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
   const [added, setAdded] = useState(false);
+  const [busy, setBusy] = useState(false);
 
-  function handleAdd() {
-    addItem({ id, name, price, img, category });
-    setAdded(true);
-    setTimeout(() => setAdded(false), 1200);
+  async function handleAdd() {
+    if (!isAuthenticated) {
+      navigate("/entrar", { state: { from: "/produtos" } });
+      return;
+    }
+    setBusy(true);
+    try {
+      await addProduct(product);
+      setAdded(true);
+      setTimeout(() => setAdded(false), 1200);
+    } catch {
+      /* erro já é exposto pelo contexto do carrinho */
+    } finally {
+      setBusy(false);
+    }
   }
 
   return (
     <div className="products-card">
       <div className="products-card-img">
-        <img src={img} alt={name} />
+        <img src={imageFor(product.imageUrl)} alt={product.name} />
         <button
           className={`products-card-btn ${added ? "products-card-btn--added" : ""}`}
           onClick={handleAdd}
+          disabled={busy}
         >
-          {added ? "✓ Adicionado" : "+ Pedido"}
+          {added ? "✓ Adicionado" : busy ? "Adicionando..." : "+ Pedido"}
         </button>
       </div>
       <div className="products-card-content">
-        <h3 className="products-card-name">{name}</h3>
-        <div className="products-card-rating">⭐⭐⭐⭐⭐ <span>240 avaliações</span></div>
+        <h3 className="products-card-name">{product.name}</h3>
+        <div className="products-card-rating">
+          ⭐⭐⭐⭐⭐ <span>240 avaliações</span>
+        </div>
         <div className="products-card-price">
-          {price} <span>no Pix</span>
+          {formatBRL(product.priceCents)} <span>no Pix</span>
         </div>
       </div>
     </div>
@@ -68,6 +66,37 @@ function ProductCard({ id, name, price, img, category }) {
 }
 
 function Products() {
+  const [products, setProducts] = useState([]);
+  const [status, setStatus] = useState("loading"); // loading | ok | error
+  const [errorMsg, setErrorMsg] = useState("");
+
+  useEffect(() => {
+    let cancelled = false;
+    api
+      .listProducts({ perPage: 100 })
+      .then((res) => {
+        if (cancelled) return;
+        setProducts(res.items);
+        setStatus("ok");
+      })
+      .catch((e) => {
+        if (cancelled) return;
+        setErrorMsg(e.message);
+        setStatus("error");
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const byCategory = useMemo(() => {
+    const map = { cones: [], bolos: [], ovos: [], outros: [] };
+    for (const p of products) {
+      (map[p.category] ?? map.outros).push(p);
+    }
+    return map;
+  }, [products]);
+
   return (
     <>
       {/* HERO */}
@@ -107,49 +136,57 @@ function Products() {
         </div>
       </section>
 
-      {/* CONES */}
-      <section className="products-section">
-        <div className="products-section-body">
-          <div className="products-section-header">
-            <span className="products-tag">Mais Pedidos</span>
-            <h2 className="products-section-title">Cones <em>Trufados</em></h2>
+      {status === "loading" && (
+        <section className="products-section">
+          <div className="products-section-body">
+            <p style={{ textAlign: "center", opacity: 0.6 }}>Carregando cardápio...</p>
           </div>
-          <div className="products-grid">
-            {cones.map((p) => <ProductCard key={p.id} {...p} category="cones" />)}
-          </div>
-        </div>
-      </section>
+        </section>
+      )}
 
-      {/* BOLOS */}
-      <section className="products-section products-section-alt">
-        <div className="bg-blob bg-blob--fill-dark bg-blob--drift products-alt-deco-1" />
-        <div className="bg-blob bg-blob--ring bg-blob--pulse products-alt-deco-2" />
-        <div className="bg-dots products-alt-dots-1" />
-        <div className="bg-spark products-alt-spark-1">✦</div>
+      {status === "error" && (
+        <section className="products-section">
+          <div className="products-section-body">
+            <p style={{ textAlign: "center", color: "#b00020" }}>
+              Não foi possível carregar o cardápio: {errorMsg}
+            </p>
+          </div>
+        </section>
+      )}
 
-        <div className="products-section-body">
-          <div className="products-section-header">
-            <span className="products-tag">Sob Encomenda</span>
-            <h2 className="products-section-title">Bolos <em>Artesanais</em></h2>
-          </div>
-          <div className="products-grid">
-            {bolos.map((p) => <ProductCard key={p.id} {...p} category="bolos" />)}
-          </div>
-        </div>
-      </section>
-
-      {/* OVOS */}
-      <section className="products-section">
-        <div className="products-section-body">
-          <div className="products-section-header">
-            <span className="products-tag">Páscoa</span>
-            <h2 className="products-section-title">Ovos de Páscoa <em>Trufados</em></h2>
-          </div>
-          <div className="products-grid">
-            {ovos.map((p) => <ProductCard key={p.id} {...p} category="ovos" />)}
-          </div>
-        </div>
-      </section>
+      {status === "ok" &&
+        SECTIONS.map((section) => {
+          const list = byCategory[section.key];
+          if (!list || list.length === 0) return null;
+          return (
+            <section
+              key={section.key}
+              className={`products-section ${section.alt ? "products-section-alt" : ""}`}
+            >
+              {section.alt && (
+                <>
+                  <div className="bg-blob bg-blob--fill-dark bg-blob--drift products-alt-deco-1" />
+                  <div className="bg-blob bg-blob--ring bg-blob--pulse products-alt-deco-2" />
+                  <div className="bg-dots products-alt-dots-1" />
+                  <div className="bg-spark products-alt-spark-1">✦</div>
+                </>
+              )}
+              <div className="products-section-body">
+                <div className="products-section-header">
+                  <span className="products-tag">{section.tag}</span>
+                  <h2 className="products-section-title">
+                    {section.title[0]} <em>{section.title[1]}</em>
+                  </h2>
+                </div>
+                <div className="products-grid">
+                  {list.map((p) => (
+                    <ProductCard key={p.id} product={p} />
+                  ))}
+                </div>
+              </div>
+            </section>
+          );
+        })}
     </>
   );
 }

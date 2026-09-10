@@ -1,63 +1,117 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useState } from "react";
+import { api } from "../lib/api";
+import { useAuth } from "./AuthContext";
 
 const CartContext = createContext(null);
-const STORAGE_KEY = "petit-de-lamour-cart";
-
-function loadCart() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : [];
-  } catch {
-    return [];
-  }
-}
 
 export function CartProvider({ children }) {
-  const [items, setItems] = useState(loadCart);
+  const { isAuthenticated } = useAuth();
+  const [cart, setCart] = useState(null); // cart view do backend, ou null
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  useEffect(() => {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
-    } catch {
-      // localStorage indisponível (modo privado, etc.) — ignora
+  const refresh = useCallback(async () => {
+    if (!isAuthenticated) {
+      setCart(null);
+      return;
     }
-  }, [items]);
+    setLoading(true);
+    setError(null);
+    try {
+      setCart(await api.getCart());
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      setLoading(false);
+    }
+  }, [isAuthenticated]);
 
-  // category + id juntos formam a chave, porque os ids se repetem entre
-  // cones/bolos/ovos (ex: cone id 1 e bolo id 1 são produtos diferentes)
-  function addItem({ id, name, price, img, category }) {
-    const key = `${category}::${id}`;
-    setItems((current) => {
-      const existing = current.find((item) => item.key === key);
-      if (existing) {
-        return current.map((item) =>
-          item.key === key ? { ...item, qty: item.qty + 1 } : item
-        );
-      }
-      return [...current, { key, id, name, price, img, category, qty: 1 }];
-    });
+  // recarrega o carrinho sempre que o login muda
+  useEffect(() => {
+    refresh();
+  }, [refresh]);
+
+  async function addProduct(product, quantity = 1) {
+    setLoading(true);
+    setError(null);
+    try {
+      setCart(await api.addCartItem(product.id, quantity));
+    } catch (e) {
+      setError(e.message);
+      throw e;
+    } finally {
+      setLoading(false);
+    }
   }
 
-  function removeItem(key) {
-    setItems((current) => current.filter((item) => item.key !== key));
+  async function removeItem(itemId) {
+    setLoading(true);
+    try {
+      setCart(await api.removeCartItem(itemId));
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      setLoading(false);
+    }
   }
 
-  function updateQty(key, qty) {
-    if (qty <= 0) return removeItem(key);
-    setItems((current) =>
-      current.map((item) => (item.key === key ? { ...item, qty } : item))
-    );
+  async function updateQty(itemId, quantity) {
+    if (quantity <= 0) return removeItem(itemId);
+    setLoading(true);
+    try {
+      setCart(await api.updateCartItem(itemId, quantity));
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      setLoading(false);
+    }
   }
 
-  function clearCart() {
-    setItems([]);
+  async function clearCart() {
+    setLoading(true);
+    try {
+      setCart(await api.clearCart());
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      setLoading(false);
+    }
   }
 
-  const totalCount = items.reduce((sum, item) => sum + item.qty, 0);
+  async function checkout() {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await api.createOrder();
+      await refresh(); // carrinho volta vazio
+      return res.order;
+    } catch (e) {
+      setError(e.message);
+      throw e;
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const items = cart?.items ?? [];
+  const totalCount = items.reduce((sum, i) => sum + i.quantity, 0);
+  const totalCents = cart?.totalCents ?? 0;
 
   return (
     <CartContext.Provider
-      value={{ items, addItem, removeItem, updateQty, clearCart, totalCount }}
+      value={{
+        items,
+        totalCount,
+        totalCents,
+        loading,
+        error,
+        refresh,
+        addProduct,
+        updateQty,
+        removeItem,
+        clearCart,
+        checkout,
+      }}
     >
       {children}
     </CartContext.Provider>

@@ -1,0 +1,185 @@
+.admin {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 70px 24px 100px;
+  min-height: calc(100vh - 220px);
+}
+
+.admin-tag {
+  display: inline-block;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #b56576;
+  background: #fdeef2;
+  padding: 4px 12px;
+  border-radius: 999px;
+  margin-bottom: 12px;
+}
+
+.admin-title {
+  font-size: 2rem;
+  margin: 0 0 30px;
+  color: #2b1b22;
+}
+.admin-title em {
+  font-style: italic;
+  color: #b56576;
+}
+
+.admin-loading,
+.admin-empty {
+  color: #7a6a70;
+}
+.admin-error {
+  color: #a12626;
+}
+
+/* ===== STATS ===== */
+.admin-stats {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.admin-stat {
+  flex: 1;
+  min-width: 140px;
+  background: #fff;
+  border: 1px solid #f0e6e9;
+  border-radius: 16px;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.admin-stat-label {
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #8a7a80;
+}
+
+.admin-stat-value {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #2b1b22;
+}
+
+/* ===== BUSCA ===== */
+.admin-search {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px 18px;
+  border: 1px solid #f0e6e9;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  margin-bottom: 24px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+.admin-search:focus {
+  border-color: #d98ba0;
+}
+
+/* ===== PEDIDO ===== */
+.admin-order {
+  background: #fff;
+  border: 1px solid #f0e6e9;
+  border-radius: 16px;
+  padding: 18px 20px;
+  margin-bottom: 16px;
+}
+
+.admin-order-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.admin-order-id {
+  font-weight: 700;
+  color: #2b1b22;
+}
+.admin-order-date {
+  font-size: 0.82rem;
+  color: #8a7a80;
+}
+
+.order-status {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+.order-status--PENDING { background: #fff3e0; color: #a5670a; }
+.order-status--PAID { background: #eafaef; color: #1e7a3d; }
+.order-status--CANCELLED { background: #fdecec; color: #a12626; }
+
+.admin-order-customer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 14px;
+  margin: 12px 0;
+  padding: 10px 14px;
+  background: #fdf8f9;
+  border-radius: 10px;
+  font-size: 0.86rem;
+}
+.admin-order-customer-name {
+  font-weight: 700;
+  color: #2b1b22;
+}
+.admin-order-customer-contact {
+  color: #6a5a60;
+}
+.admin-order-whatsapp {
+  color: #1e7a3d;
+  text-decoration: none;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.admin-order-whatsapp:hover {
+  text-decoration: underline;
+}
+
+.order-items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px dashed #eddfe4;
+  padding-top: 10px;
+}
+.order-items li {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  padding: 4px 0;
+  color: #4a3a40;
+}
+
+.admin-order-total {
+  margin-top: 10px;
+  text-align: right;
+  font-weight: 700;
+  color: #2b1b22;
+}
+.admin-order-total strong {
+  color: #b56576;
+  margin-left: 6px;
+}
+
+@media (max-width: 640px) {
+  .admin-stats {
+    flex-direction: column;
+  }
+}

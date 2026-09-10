@@ -1,0 +1,107 @@
+.myorders {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 70px 24px 100px;
+  min-height: calc(100vh - 220px);
+}
+
+.myorders-tag {
+  display: inline-block;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #b56576;
+  background: #fdeef2;
+  padding: 4px 12px;
+  border-radius: 999px;
+  margin-bottom: 12px;
+}
+
+.myorders-title {
+  font-size: 2rem;
+  margin: 0 0 30px;
+  color: #2b1b22;
+}
+.myorders-title em {
+  font-style: italic;
+  color: #b56576;
+}
+
+.myorders-empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: #7a6a70;
+}
+.myorders-empty a {
+  display: inline-block;
+  margin-top: 16px;
+  border-radius: 999px;
+  padding: 12px 26px;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, #d98ba0, #b56576);
+  text-decoration: none;
+}
+
+.order-card {
+  background: #fff;
+  border: 1px solid #f0e6e9;
+  border-radius: 16px;
+  padding: 18px 20px;
+  margin-bottom: 16px;
+}
+
+.order-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.order-card-id {
+  font-weight: 700;
+  color: #2b1b22;
+}
+.order-card-date {
+  font-size: 0.82rem;
+  color: #8a7a80;
+}
+.order-status {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+.order-status--PENDING { background: #fff3e0; color: #a5670a; }
+.order-status--PAID { background: #eafaef; color: #1e7a3d; }
+.order-status--CANCELLED { background: #fdecec; color: #a12626; }
+
+.order-items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px dashed #eddfe4;
+  padding-top: 10px;
+}
+.order-items li {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  padding: 4px 0;
+  color: #4a3a40;
+}
+
+.order-card-total {
+  margin-top: 10px;
+  text-align: right;
+  font-weight: 700;
+  color: #2b1b22;
+}
+.order-card-total strong {
+  color: #b56576;
+  margin-left: 6px;
+}
