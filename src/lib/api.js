@@ -37,7 +37,7 @@ async function request(method, path, body) {
     res = await fetch(BASE + path, {
       method,
       headers: {
-        "Content-Type": "application/json",
+        ...(body !== undefined ? { "Content-Type": "application/json" } : {}),
         ...(getToken() ? { Authorization: `Bearer ${getToken()}` } : {}),
       },
       body: body !== undefined ? JSON.stringify(body) : undefined,

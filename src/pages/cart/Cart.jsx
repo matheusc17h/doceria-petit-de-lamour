@@ -5,6 +5,7 @@ import { useAuth } from "../../context/AuthContext";
 import { useCart } from "../../context/CartContext";
 import { api } from "../../lib/api";
 import { imageFor } from "../../img/catalog";
+import PixPayment from "../../components/PixPayment/PixPayment";
 
 function formatBRL(cents) {
   return (cents / 100).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
@@ -62,12 +63,14 @@ function Cart() {
   if (placedOrder) {
     return (
       <div className="cart">
-        <div className="cart-success">
-          <h2>Pedido realizado! 🎉</h2>
-          <p>
-            Pedido <strong>#{placedOrder.id.slice(0, 8)}</strong> — total{" "}
-            {formatBRL(placedOrder.totalCents)}.
-          </p>
+        <span className="cart-tag">Carrinho</span>
+        <h1 className="cart-title">
+          Pedido <em>criado</em>
+        </h1>
+
+        <PixPayment order={placedOrder} />
+
+        <div className="cart-success-actions">
           <button className="cart-cta" onClick={() => navigate("/meus-pedidos")}>
             Ver meus pedidos
           </button>
