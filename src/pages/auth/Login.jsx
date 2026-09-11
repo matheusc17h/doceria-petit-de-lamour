@@ -66,6 +66,10 @@ function Login() {
           />
         </div>
 
+        <p className="auth-forgot">
+          <Link to="/esqueci-senha">Esqueci minha senha</Link>
+        </p>
+
         <button className="auth-btn" type="submit" disabled={busy}>
           {busy ? "Entrando..." : "Entrar"}
         </button>

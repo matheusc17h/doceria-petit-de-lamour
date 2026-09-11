@@ -43,7 +43,14 @@ function Footer() {
 
           <div className="footer-col">
             <h3 className="footer-col-title">Redes Sociais</h3>
-            <a href="#" className="footer-link">Instagram</a>
+            <a
+              href="https://www.instagram.com/petit_de_lamour/"
+              target="_blank"
+              rel="noreferrer"
+              className="footer-link"
+            >
+              Instagram
+            </a>
             <a href="#" className="footer-link">WhatsApp</a>
           </div>
 
