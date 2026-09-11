@@ -13,6 +13,7 @@ import Register from "./pages/auth/Register.jsx";
 import Cart from "./pages/cart/Cart.jsx";
 import MyOrders from "./pages/my-orders/MyOrders.jsx";
 import AdminDashboard from "./pages/admin/AdminDashboard.jsx";
+import NotFound from "./pages/not-found/NotFound.jsx";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
         <Route path="/carrinho" element={<Cart />} />
         <Route path="/meus-pedidos" element={<MyOrders />} />
         <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
 
       <Footer />

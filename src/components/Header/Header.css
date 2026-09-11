@@ -69,6 +69,7 @@
     text-transform: uppercase;
     padding-bottom: 6px;
     border-bottom: 1px solid transparent;
+    white-space: nowrap;
     transition: color 0.3s ease, border-color 0.3s ease;
 }
 
@@ -278,7 +279,10 @@
 }
 
 /* ===== RESPONSIVO ===== */
-@media (max-width: 900px) {
+/* 1350px porque é a largura mínima em que logo + 5 itens de menu (com
+   "Meus Pedidos" pra quem está logado) + busca + ícones cabem numa linha
+   só sem quebrar palavra ou empurrar carrinho/conta pra fora da tela. */
+@media (max-width: 1350px) {
     .header {
         padding: 12px 20px;
         gap: 16px;
