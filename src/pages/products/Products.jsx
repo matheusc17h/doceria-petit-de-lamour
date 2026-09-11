@@ -16,6 +16,28 @@ const SECTIONS = [
   { key: "ovos", tag: "Páscoa", title: ["Ovos de Páscoa", "Trufados"] },
 ];
 
+// Cardápio fixo, usado só quando o backend não responde (ex.: site
+// publicado sem o backend hospedado em algum lugar público ainda). Mesmo
+// formato que a API devolve, pra passar pelo mesmo <ProductCard>.
+const FALLBACK_PRODUCTS = [
+  { id: "cone-1", name: "Kinder Bueno", priceCents: 1500, category: "cones", imageUrl: "cone-kinder.png" },
+  { id: "cone-2", name: "Ovomaltine", priceCents: 1500, category: "cones", imageUrl: "cone-ovomaltine.png" },
+  { id: "cone-3", name: "Ouro Branco", priceCents: 1500, category: "cones", imageUrl: "cone-ourob.png" },
+  { id: "cone-4", name: "Ferrero Rocher", priceCents: 1500, category: "cones", imageUrl: "cone-ferrero1.png" },
+  { id: "cone-5", name: "Cookies & Cream", priceCents: 1500, category: "cones", imageUrl: "logo2.png" },
+  { id: "cone-6", name: "Prestígio", priceCents: 1500, category: "cones", imageUrl: "logo2.png" },
+  { id: "cone-7", name: "Maracujá", priceCents: 1500, category: "cones", imageUrl: "logo2.png" },
+  { id: "cone-8", name: "Morango", priceCents: 1500, category: "cones", imageUrl: "logo2.png" },
+  { id: "bolo-1", name: "Brigadeiro Gourmet", priceCents: 12000, category: "bolos", imageUrl: "bolo1.png" },
+  { id: "bolo-2", name: "Morango com Leite Ninho", priceCents: 13000, category: "bolos", imageUrl: "bolo2.png" },
+  { id: "bolo-3", name: "Chocolate", priceCents: 11000, category: "bolos", imageUrl: "bolo3.png" },
+  { id: "bolo-4", name: "Baunilha", priceCents: 11000, category: "bolos", imageUrl: "bolo3.png" },
+  { id: "ovo-1", name: "Brigadeiro Gourmet", priceCents: 4500, category: "ovos", imageUrl: "logo2.png" },
+  { id: "ovo-2", name: "Prestígio", priceCents: 4500, category: "ovos", imageUrl: "logo2.png" },
+  { id: "ovo-3", name: "Ninho com Morango", priceCents: 5000, category: "ovos", imageUrl: "logo2.png" },
+  { id: "ovo-4", name: "Kinder Bueno", priceCents: 5500, category: "ovos", imageUrl: "logo2.png" },
+];
+
 function ProductCard({ product }) {
   const { addProduct } = useCart();
   const { isAuthenticated } = useAuth();
@@ -81,6 +103,14 @@ function Products() {
       })
       .catch((e) => {
         if (cancelled) return;
+        // Backend fora do ar (rede/timeout) — mostra o cardápio fixo em vez
+        // de deixar a página vazia. Erros do próprio servidor (validação,
+        // etc.) continuam indo pra tela de erro normalmente.
+        if (e.code === "NETWORK") {
+          setProducts(FALLBACK_PRODUCTS);
+          setStatus("ok");
+          return;
+        }
         setErrorMsg(e.message);
         setStatus("error");
       });
