@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import "./Products.css";
 import { useCart } from "../../context/CartContext";
 import { useAuth } from "../../context/AuthContext";
@@ -88,14 +88,19 @@ function ProductCard({ product }) {
 }
 
 function Products() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const search = searchParams.get("busca") ?? "";
+
   const [products, setProducts] = useState([]);
   const [status, setStatus] = useState("loading"); // loading | ok | error
   const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
     let cancelled = false;
+    const term = search.trim();
+    setStatus("loading");
     api
-      .listProducts({ perPage: 100 })
+      .listProducts({ perPage: 100, ...(term ? { search: term } : {}) })
       .then((res) => {
         if (cancelled) return;
         setProducts(res.items);
@@ -103,11 +108,15 @@ function Products() {
       })
       .catch((e) => {
         if (cancelled) return;
-        // Backend fora do ar (rede/timeout) — mostra o cardápio fixo em vez
-        // de deixar a página vazia. Erros do próprio servidor (validação,
-        // etc.) continuam indo pra tela de erro normalmente.
+        // Backend fora do ar (rede/timeout) — mostra o cardápio fixo (ou o
+        // cardápio fixo filtrado, se tinha busca) em vez de deixar a página
+        // vazia. Erros do próprio servidor (validação, etc.) continuam indo
+        // pra tela de erro normalmente.
         if (e.code === "NETWORK") {
-          setProducts(FALLBACK_PRODUCTS);
+          const fallback = term
+            ? FALLBACK_PRODUCTS.filter((p) => p.name.toLowerCase().includes(term.toLowerCase()))
+            : FALLBACK_PRODUCTS;
+          setProducts(fallback);
           setStatus("ok");
           return;
         }
@@ -117,7 +126,11 @@ function Products() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [search]);
+
+  function clearSearch() {
+    setSearchParams({});
+  }
 
   const byCategory = useMemo(() => {
     const map = { cones: [], bolos: [], ovos: [], outros: [] };
@@ -166,6 +179,17 @@ function Products() {
         </div>
       </section>
 
+      {search.trim() && status !== "loading" && (
+        <div className="products-search-banner">
+          <p>
+            Resultados para <strong>"{search.trim()}"</strong>
+          </p>
+          <button type="button" onClick={clearSearch}>
+            Ver cardápio completo
+          </button>
+        </div>
+      )}
+
       {status === "loading" && (
         <section className="products-section">
           <div className="products-section-body">
@@ -179,6 +203,17 @@ function Products() {
           <div className="products-section-body">
             <p style={{ textAlign: "center", color: "#b00020" }}>
               Não foi possível carregar o cardápio: {errorMsg}
+            </p>
+          </div>
+        </section>
+      )}
+
+      {status === "ok" && products.length === 0 && (
+        <section className="products-section">
+          <div className="products-section-body">
+            <p className="products-empty">
+              Nenhum produto encontrado pra "{search.trim()}".{" "}
+              <Link to="/produtos">Ver cardápio completo</Link>
             </p>
           </div>
         </section>

@@ -1,9 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import "./Header.css";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate, useSearchParams } from "react-router-dom";
 import logo from '../../img/logo.png'
 import { useCart } from "../../context/CartContext";
 import { useAuth } from "../../context/AuthContext";
+import { api } from "../../lib/api";
+import { imageFor } from "../../img/catalog";
+
+function formatBRL(cents) {
+  return (cents / 100).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+}
 
 function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -12,11 +18,19 @@ function Header() {
   const { totalCount } = useCart();
   const { isAuthenticated, isAdmin, user, logout } = useAuth();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
   const [bump, setBump] = useState(false);
   const firstRender = useRef(true);
   const [accountOpen, setAccountOpen] = useState(false);
   const accountRef = useRef(null);
+
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState([]);
+  const [searching, setSearching] = useState(false);
+  const [resultsOpen, setResultsOpen] = useState(false);
+  const searchRef = useRef(null);
+  const debounceRef = useRef(null);
 
   useEffect(() => {
     if (firstRender.current) {
@@ -38,6 +52,53 @@ function Header() {
     document.addEventListener("mousedown", onClick);
     return () => document.removeEventListener("mousedown", onClick);
   }, []);
+
+  // fecha a lista de resultados da busca ao clicar fora
+  useEffect(() => {
+    function onClick(e) {
+      if (searchRef.current && !searchRef.current.contains(e.target)) {
+        setResultsOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", onClick);
+    return () => document.removeEventListener("mousedown", onClick);
+  }, []);
+
+  // busca com debounce: espera parar de digitar antes de chamar a API
+  useEffect(() => {
+    const term = query.trim();
+    if (term.length < 2) {
+      setResults([]);
+      setSearching(false);
+      return;
+    }
+    setSearching(true);
+    debounceRef.current = setTimeout(() => {
+      api
+        .listProducts({ search: term, perPage: 6 })
+        .then((res) => setResults(res.items))
+        .catch(() => setResults([]))
+        .finally(() => setSearching(false));
+    }, 300);
+    return () => clearTimeout(debounceRef.current);
+  }, [query]);
+
+  // mantém a caixa de busca do header refletindo a URL atual — cobre link
+  // direto, atualizar a página e o botão de voltar do navegador
+  useEffect(() => {
+    setQuery(searchParams.get("busca") ?? "");
+  }, [searchParams]);
+
+  function goToSearch(term) {
+    setResultsOpen(false);
+    navigate(`/produtos?busca=${encodeURIComponent(term)}`);
+  }
+
+  function handleSearchSubmit(e) {
+    e.preventDefault();
+    const term = query.trim();
+    if (term) goToSearch(term);
+  }
 
   const firstName = user?.name?.split(" ")[0] ?? "";
 
@@ -75,9 +136,54 @@ function Header() {
         </nav>
 
         <div className="header-actions">
-          <div className="header-search">
-            <i className="fa-solid fa-magnifying-glass"></i>
-            <input type="text" placeholder="Buscar sabor, bolo, ovo..." />
+          <div className="header-search-wrap" ref={searchRef}>
+            <form className="header-search" onSubmit={handleSearchSubmit}>
+              <i className="fa-solid fa-magnifying-glass"></i>
+              <input
+                type="text"
+                placeholder="Buscar sabor, bolo, ovo..."
+                value={query}
+                onChange={(e) => {
+                  setQuery(e.target.value);
+                  setResultsOpen(true);
+                }}
+                onFocus={() => setResultsOpen(true)}
+              />
+            </form>
+
+            {resultsOpen && query.trim().length >= 2 && (
+              <div className="header-search-results">
+                {searching && <p className="header-search-status">Buscando...</p>}
+
+                {!searching && results.length === 0 && (
+                  <p className="header-search-status">Nenhum produto encontrado.</p>
+                )}
+
+                {!searching &&
+                  results.map((p) => (
+                    <button
+                      key={p.id}
+                      type="button"
+                      className="header-search-item"
+                      onClick={() => goToSearch(p.name)}
+                    >
+                      <img src={imageFor(p.imageUrl)} alt="" />
+                      <span className="header-search-item-name">{p.name}</span>
+                      <span className="header-search-item-price">{formatBRL(p.priceCents)}</span>
+                    </button>
+                  ))}
+
+                {!searching && results.length > 0 && (
+                  <button
+                    type="button"
+                    className="header-search-all"
+                    onClick={() => goToSearch(query.trim())}
+                  >
+                    Ver todos os resultados para "{query.trim()}"
+                  </button>
+                )}
+              </div>
+            )}
           </div>
 
           {isAuthenticated ? (
