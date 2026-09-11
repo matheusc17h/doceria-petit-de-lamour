@@ -1,7 +1,27 @@
+import { useState } from "react";
 import "./Footer.css";
 import logo1 from "../../img/logo1.png";
+import { api } from "../../lib/api";
 
 function Footer() {
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState("idle"); // idle | sending | done | error
+  const [errorMsg, setErrorMsg] = useState("");
+
+  async function handleSubscribe(e) {
+    e.preventDefault();
+    setStatus("sending");
+    setErrorMsg("");
+    try {
+      await api.subscribeNewsletter(email.trim());
+      setEmail("");
+      setStatus("done");
+    } catch (err) {
+      setErrorMsg(err.message || "Não foi possível se inscrever.");
+      setStatus("error");
+    }
+  }
+
   return (
     <>
       {/* NEWSLETTER */}
@@ -16,10 +36,24 @@ function Footer() {
               Inscreva-se e ganhe acesso a descontos exclusivos, novidades da nossa doceria e lançamentos irresistíveis.
             </p>
           </div>
-          <div className="footer-newsletter-form">
-            <input type="email" placeholder="Seu melhor e-mail" className="footer-newsletter-input" />
-            <button className="footer-newsletter-btn">Receber Ofertas</button>
-          </div>
+          {status === "done" ? (
+            <p className="footer-newsletter-success">Inscrito! Fique de olho no seu e-mail. 💌</p>
+          ) : (
+            <form className="footer-newsletter-form" onSubmit={handleSubscribe}>
+              <input
+                type="email"
+                placeholder="Seu melhor e-mail"
+                className="footer-newsletter-input"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+              <button className="footer-newsletter-btn" type="submit" disabled={status === "sending"}>
+                {status === "sending" ? "Enviando..." : "Receber Ofertas"}
+              </button>
+            </form>
+          )}
+          {status === "error" && <p className="footer-newsletter-error">{errorMsg}</p>}
         </div>
       </section>
 

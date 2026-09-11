@@ -114,6 +114,16 @@ export const api = {
     const q = qs.toString();
     return request("GET", `/admin/order-requests${q ? `?${q}` : ""}`);
   },
+
+  // ---------- newsletter (captação de e-mail, sem login) ----------
+  subscribeNewsletter: (email) => request("POST", "/newsletter/subscribers", { email }),
+  adminListNewsletterSubscribers: (params = {}) => {
+    const qs = new URLSearchParams();
+    if (params.page) qs.set("page", params.page);
+    if (params.perPage) qs.set("perPage", params.perPage);
+    const q = qs.toString();
+    return request("GET", `/admin/newsletter/subscribers${q ? `?${q}` : ""}`);
+  },
 };
 
 export { BASE as API_BASE };

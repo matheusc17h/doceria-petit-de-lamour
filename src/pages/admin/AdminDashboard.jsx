@@ -30,6 +30,8 @@ function AdminDashboard() {
   const [summary, setSummary] = useState(null);
   const [orders, setOrders] = useState([]);
   const [orderRequests, setOrderRequests] = useState([]);
+  const [subscribers, setSubscribers] = useState([]);
+  const [subscribersOpen, setSubscribersOpen] = useState(false);
   const [status, setStatus] = useState("loading"); // loading | ok | error
   const [errorMsg, setErrorMsg] = useState("");
   const [search, setSearch] = useState("");
@@ -50,12 +52,14 @@ function AdminDashboard() {
       api.adminSummary(),
       api.adminListOrders({ perPage: 100 }),
       api.adminListOrderRequests({ perPage: 100 }),
+      api.adminListNewsletterSubscribers({ perPage: 500 }),
     ])
-      .then(([summaryRes, ordersRes, requestsRes]) => {
+      .then(([summaryRes, ordersRes, requestsRes, subscribersRes]) => {
         if (cancelled) return;
         setSummary(summaryRes);
         setOrders(ordersRes.items);
         setOrderRequests(requestsRes.items);
+        setSubscribers(subscribersRes.items);
         setStatus("ok");
       })
       .catch((e) => {
@@ -67,6 +71,17 @@ function AdminDashboard() {
       cancelled = true;
     };
   }, [ready, isAuthenticated, isAdmin, navigate]);
+
+  async function handleCopyEmails() {
+    const list = subscribers.map((s) => s.email).join(", ");
+    try {
+      await navigator.clipboard.writeText(list);
+      setToast({ type: "ok", text: `${subscribers.length} e-mail(s) copiados.` });
+    } catch {
+      setToast({ type: "error", text: "Não foi possível copiar. Copie manualmente da lista." });
+    }
+    setTimeout(() => setToast(null), 3000);
+  }
 
   function refreshSummary() {
     api.adminSummary().then(setSummary).catch(() => {});
@@ -149,6 +164,10 @@ function AdminDashboard() {
               <span className="admin-stat-label">Clientes</span>
               <span className="admin-stat-value">{summary.uniqueCustomers}</span>
             </div>
+            <div className="admin-stat">
+              <span className="admin-stat-label">Inscritos newsletter</span>
+              <span className="admin-stat-value">{subscribers.length}</span>
+            </div>
           </div>
 
           <button type="button" className="admin-chart-trigger" onClick={() => setChartOpen(true)}>
@@ -156,6 +175,32 @@ function AdminDashboard() {
           </button>
 
           {chartOpen && <AdminChart orders={orders} onClose={() => setChartOpen(false)} />}
+
+          {subscribers.length > 0 && (
+            <div className="admin-subscribers">
+              <button
+                type="button"
+                className="admin-subscribers-toggle"
+                onClick={() => setSubscribersOpen((o) => !o)}
+              >
+                📧 {subscribers.length} inscrito(s) na newsletter {subscribersOpen ? "▲" : "▼"}
+              </button>
+              {subscribersOpen && (
+                <div className="admin-subscribers-list">
+                  <button type="button" className="admin-subscribers-copy" onClick={handleCopyEmails}>
+                    Copiar todos os e-mails
+                  </button>
+                  <ul>
+                    {subscribers.map((s) => (
+                      <li key={s.id}>
+                        {s.email} <span>{formatDate(s.createdAt)}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          )}
 
           {orderRequests.length > 0 && (
             <div className="admin-requests">

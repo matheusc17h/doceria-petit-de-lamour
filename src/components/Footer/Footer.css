@@ -96,6 +96,28 @@
   background: #f898ba;
 }
 
+.footer-newsletter-btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.footer-newsletter-success {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px;
+  font-style: italic;
+  color: #fcaec9;
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.footer-newsletter-error {
+  width: 100%;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 14px;
+  color: #ffb4b4;
+  margin: 10px 0 0;
+}
+
 /* ===== FOOTER ===== */
 .footer {
   background-color: #1a0d10;
