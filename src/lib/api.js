@@ -102,6 +102,8 @@ export const api = {
     return request("GET", `/admin/orders${q ? `?${q}` : ""}`);
   },
   adminGetOrder: (id) => request("GET", `/admin/orders/${id}`),
+  adminConfirmOrder: (id) => request("POST", `/admin/orders/${id}/confirm`),
+  adminDenyOrder: (id) => request("POST", `/admin/orders/${id}/deny`),
 };
 
 export { BASE as API_BASE };

@@ -31,6 +31,8 @@ function AdminDashboard() {
   const [status, setStatus] = useState("loading"); // loading | ok | error
   const [errorMsg, setErrorMsg] = useState("");
   const [search, setSearch] = useState("");
+  const [actionBusyId, setActionBusyId] = useState(null);
+  const [toast, setToast] = useState(null);
 
   useEffect(() => {
     if (!ready) return;
@@ -58,6 +60,45 @@ function AdminDashboard() {
     };
   }, [ready, isAuthenticated, isAdmin, navigate]);
 
+  function refreshSummary() {
+    api.adminSummary().then(setSummary).catch(() => {});
+  }
+
+  async function handleConfirm(orderId) {
+    setActionBusyId(orderId);
+    try {
+      const res = await api.adminConfirmOrder(orderId);
+      setOrders((current) => current.map((o) => (o.id === orderId ? res.order : o)));
+      setToast({ type: "ok", text: "Pedido aceito." });
+      refreshSummary();
+    } catch (e) {
+      setToast({ type: "error", text: e.message });
+    } finally {
+      setActionBusyId(null);
+      setTimeout(() => setToast(null), 4000);
+    }
+  }
+
+  async function handleDeny(orderId) {
+    setActionBusyId(orderId);
+    try {
+      const res = await api.adminDenyOrder(orderId);
+      setOrders((current) => current.map((o) => (o.id === orderId ? res.order : o)));
+      setToast({
+        type: "ok",
+        text: res.refunded
+          ? `Pedido negado — ${formatBRL(res.refundedCents)} estornado (simulado) pro cliente.`
+          : "Pedido negado.",
+      });
+      refreshSummary();
+    } catch (e) {
+      setToast({ type: "error", text: e.message });
+    } finally {
+      setActionBusyId(null);
+      setTimeout(() => setToast(null), 5000);
+    }
+  }
+
   const filteredOrders = useMemo(() => {
     const term = search.trim().toLowerCase();
     if (!term) return orders;
@@ -79,6 +120,8 @@ function AdminDashboard() {
       <h1 className="admin-title">
         Pedidos <em>recebidos</em>
       </h1>
+
+      {toast && <div className={`admin-toast admin-toast--${toast.type}`}>{toast.text}</div>}
 
       {status === "loading" && <p className="admin-loading">Carregando...</p>}
       {status === "error" && <p className="admin-error">{errorMsg}</p>}
@@ -155,6 +198,27 @@ function AdminDashboard() {
                 <div className="admin-order-total">
                   Total <strong>{formatBRL(order.totalCents)}</strong>
                 </div>
+
+                {order.status === "PAID" && (
+                  <div className="admin-order-decision">
+                    <button
+                      type="button"
+                      className="admin-order-accept"
+                      disabled={actionBusyId === order.id}
+                      onClick={() => handleConfirm(order.id)}
+                    >
+                      {actionBusyId === order.id ? "..." : "Aceitar pedido"}
+                    </button>
+                    <button
+                      type="button"
+                      className="admin-order-deny"
+                      disabled={actionBusyId === order.id}
+                      onClick={() => handleDeny(order.id)}
+                    >
+                      {actionBusyId === order.id ? "..." : "Negar pedido"}
+                    </button>
+                  </div>
+                )}
               </div>
             );
           })}
