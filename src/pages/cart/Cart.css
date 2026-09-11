@@ -201,6 +201,19 @@
 .cart-success h2 {
   margin: 0 0 8px;
 }
+.cart-success-total {
+  font-size: 1.4rem;
+  margin: 0 0 14px;
+}
+.cart-success-total strong {
+  color: #1e7a3d;
+}
+.cart-success p {
+  margin: 0 0 8px;
+}
+.cart-success p:last-child {
+  margin-bottom: 0;
+}
 
 .cart-success-actions {
   text-align: center;

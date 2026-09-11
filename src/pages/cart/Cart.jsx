@@ -5,7 +5,10 @@ import { useAuth } from "../../context/AuthContext";
 import { useCart } from "../../context/CartContext";
 import { api } from "../../lib/api";
 import { imageFor } from "../../img/catalog";
-import PixPayment from "../../components/PixPayment/PixPayment";
+// PixPayment (QR code + copia-e-cola) não é mais mostrado aqui — o fluxo
+// agora é: pedido enviado -> equipe confirma pelo WhatsApp. O componente
+// continua em src/components/PixPayment caso o pagamento automático via
+// Pix volte a ser usado no futuro.
 
 function formatBRL(cents) {
   return (cents / 100).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
@@ -65,10 +68,19 @@ function Cart() {
       <div className="cart">
         <span className="cart-tag">Carrinho</span>
         <h1 className="cart-title">
-          Pedido <em>criado</em>
+          Pedido <em>recebido</em>
         </h1>
 
-        <PixPayment order={placedOrder} />
+        <div className="cart-success">
+          <h2>Obrigada pelo seu pedido! 🎉</h2>
+          <p className="cart-success-total">
+            Total <strong>{formatBRL(placedOrder.totalCents)}</strong>
+          </p>
+          <p>
+            Pedido <strong>#{placedOrder.id.slice(0, 8)}</strong> — em breve nossa equipe vai
+            entrar em contato com você pelo WhatsApp pra confirmar os detalhes do seu pedido.
+          </p>
+        </div>
 
         <div className="cart-success-actions">
           <button className="cart-cta" onClick={() => navigate("/meus-pedidos")}>
