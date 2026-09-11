@@ -3,6 +3,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import "./AdminDashboard.css";
 import { useAuth } from "../../context/AuthContext";
 import { api } from "../../lib/api";
+import AdminChart from "../../components/AdminChart/AdminChart";
 
 function formatBRL(cents) {
   return (cents / 100).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
@@ -33,6 +34,7 @@ function AdminDashboard() {
   const [search, setSearch] = useState("");
   const [actionBusyId, setActionBusyId] = useState(null);
   const [toast, setToast] = useState(null);
+  const [chartOpen, setChartOpen] = useState(false);
 
   useEffect(() => {
     if (!ready) return;
@@ -142,6 +144,12 @@ function AdminDashboard() {
               <span className="admin-stat-value">{summary.uniqueCustomers}</span>
             </div>
           </div>
+
+          <button type="button" className="admin-chart-trigger" onClick={() => setChartOpen(true)}>
+            📊 Analisar gráfico
+          </button>
+
+          {chartOpen && <AdminChart orders={orders} onClose={() => setChartOpen(false)} />}
 
           <input
             className="admin-search"
