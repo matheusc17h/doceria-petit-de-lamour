@@ -29,6 +29,7 @@ function AdminDashboard() {
 
   const [summary, setSummary] = useState(null);
   const [orders, setOrders] = useState([]);
+  const [orderRequests, setOrderRequests] = useState([]);
   const [status, setStatus] = useState("loading"); // loading | ok | error
   const [errorMsg, setErrorMsg] = useState("");
   const [search, setSearch] = useState("");
@@ -45,11 +46,16 @@ function AdminDashboard() {
     if (!isAdmin) return; // trata na renderização (sem redirect: evita loop)
 
     let cancelled = false;
-    Promise.all([api.adminSummary(), api.adminListOrders({ perPage: 100 })])
-      .then(([summaryRes, ordersRes]) => {
+    Promise.all([
+      api.adminSummary(),
+      api.adminListOrders({ perPage: 100 }),
+      api.adminListOrderRequests({ perPage: 100 }),
+    ])
+      .then(([summaryRes, ordersRes, requestsRes]) => {
         if (cancelled) return;
         setSummary(summaryRes);
         setOrders(ordersRes.items);
+        setOrderRequests(requestsRes.items);
         setStatus("ok");
       })
       .catch((e) => {
@@ -150,6 +156,48 @@ function AdminDashboard() {
           </button>
 
           {chartOpen && <AdminChart orders={orders} onClose={() => setChartOpen(false)} />}
+
+          {orderRequests.length > 0 && (
+            <div className="admin-requests">
+              <h2 className="admin-subtitle">
+                Pedidos de contato <em>("Faça sua Encomenda")</em>
+              </h2>
+              {orderRequests.map((req) => {
+                const link = waLink(req.whatsapp);
+                return (
+                  <div className="admin-order admin-request" key={req.id}>
+                    <div className="admin-order-head">
+                      <div>
+                        <div className="admin-order-id">{req.productCategory}</div>
+                        <div className="admin-order-date">Recebido em {formatDate(req.createdAt)}</div>
+                      </div>
+                      <span className="order-status order-status--PENDING">{req.status}</span>
+                    </div>
+
+                    <div className="admin-order-customer">
+                      <span className="admin-order-customer-name">{req.customerName}</span>
+                      {link ? (
+                        <a href={link} target="_blank" rel="noreferrer" className="admin-order-whatsapp">
+                          <i className="fa-brands fa-whatsapp"></i> {req.whatsapp}
+                        </a>
+                      ) : (
+                        <span className="admin-order-customer-contact">{req.whatsapp}</span>
+                      )}
+                      {req.deliveryDate && (
+                        <span className="admin-order-customer-contact">
+                          Entrega: {formatDate(req.deliveryDate).split(",")[0]}
+                        </span>
+                      )}
+                    </div>
+
+                    {req.notes && <p className="admin-request-notes">{req.notes}</p>}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
+          <h2 className="admin-subtitle">Pedidos do carrinho</h2>
 
           <input
             className="admin-search"

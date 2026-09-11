@@ -89,6 +89,31 @@
   background: #fdf8f9;
 }
 
+/* ===== PEDIDOS DE CONTATO ===== */
+.admin-subtitle {
+  font-size: 1.05rem;
+  color: #2b1b22;
+  margin: 28px 0 14px;
+}
+.admin-subtitle em {
+  font-style: italic;
+  color: #b56576;
+  font-size: 0.9rem;
+}
+
+.admin-requests {
+  margin-bottom: 8px;
+}
+
+.admin-request-notes {
+  margin: 10px 0 0;
+  padding-top: 10px;
+  border-top: 1px dashed #eddfe4;
+  font-size: 0.86rem;
+  color: #4a3a40;
+  font-style: italic;
+}
+
 /* ===== BUSCA ===== */
 .admin-search {
   width: 100%;

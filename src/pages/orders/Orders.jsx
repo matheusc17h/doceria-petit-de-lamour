@@ -1,6 +1,44 @@
+import { useState } from "react";
 import "./Orders.css";
+import { api } from "../../lib/api";
+
+const INITIAL_FORM = {
+  customerName: "",
+  whatsapp: "",
+  productCategory: "",
+  deliveryDate: "",
+  notes: "",
+};
 
 function Orders() {
+  const [form, setForm] = useState(INITIAL_FORM);
+  const [status, setStatus] = useState("idle"); // idle | sending | done | error
+  const [errorMsg, setErrorMsg] = useState("");
+
+  function handleChange(field) {
+    return (e) => setForm((f) => ({ ...f, [field]: e.target.value }));
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setStatus("sending");
+    setErrorMsg("");
+    try {
+      await api.createOrderRequest({
+        customerName: form.customerName,
+        whatsapp: form.whatsapp,
+        productCategory: form.productCategory,
+        deliveryDate: form.deliveryDate || undefined,
+        notes: form.notes || undefined,
+      });
+      setForm(INITIAL_FORM);
+      setStatus("done");
+    } catch (err) {
+      setErrorMsg(err.message || "Não foi possível enviar seu pedido.");
+      setStatus("error");
+    }
+  }
+
   return (
     <>
       {/* HERO ORDERS */}
@@ -74,39 +112,85 @@ function Orders() {
             <span className="orders-tag">Seu pedido</span>
             <h2 className="orders-form-title">Preencha os dados</h2>
 
-            <div className="orders-form">
-              <div className="orders-field">
-                <label>Nome completo</label>
-                <input type="text" placeholder="Seu nome" />
+            {status === "done" ? (
+              <div className="orders-success">
+                <h3>Pedido enviado! 🎉</h3>
+                <p>Recebemos seu pedido e vamos entrar em contato pelo WhatsApp em até 24h para confirmar.</p>
+                <button className="orders-btn" type="button" onClick={() => setStatus("idle")}>
+                  Fazer outro pedido
+                </button>
               </div>
+            ) : (
+              <form className="orders-form" onSubmit={handleSubmit}>
+                {status === "error" && <div className="orders-error">{errorMsg}</div>}
 
-              <div className="orders-field">
-                <label>WhatsApp</label>
-                <input type="text" placeholder="(11) 99999-9999" />
-              </div>
+                <div className="orders-field">
+                  <label htmlFor="order-name">Nome completo</label>
+                  <input
+                    id="order-name"
+                    type="text"
+                    placeholder="Seu nome"
+                    value={form.customerName}
+                    onChange={handleChange("customerName")}
+                    required
+                    minLength={2}
+                  />
+                </div>
 
-              <div className="orders-field">
-                <label>Produto desejado</label>
-                <select>
-                  <option value="">Selecione um produto</option>
-                  <option>Cones Trufados</option>
-                  <option>Ovos de Páscoa</option>
-                  <option>Bolos Personalizados</option>
-                </select>
-              </div>
+                <div className="orders-field">
+                  <label htmlFor="order-whatsapp">WhatsApp</label>
+                  <input
+                    id="order-whatsapp"
+                    type="text"
+                    placeholder="(11) 99999-9999"
+                    value={form.whatsapp}
+                    onChange={handleChange("whatsapp")}
+                    required
+                  />
+                </div>
 
-              <div className="orders-field">
-                <label>Data da entrega</label>
-                <input type="date" />
-              </div>
+                <div className="orders-field">
+                  <label htmlFor="order-category">Produto desejado</label>
+                  <select
+                    id="order-category"
+                    value={form.productCategory}
+                    onChange={handleChange("productCategory")}
+                    required
+                  >
+                    <option value="">Selecione um produto</option>
+                    <option>Cones Trufados</option>
+                    <option>Ovos de Páscoa</option>
+                    <option>Bolos Personalizados</option>
+                  </select>
+                </div>
 
-              <div className="orders-field orders-field-full">
-                <label>Observações</label>
-                <textarea placeholder="Sabores, quantidade, ocasião especial..." rows={4} />
-              </div>
+                <div className="orders-field">
+                  <label htmlFor="order-date">Data da entrega</label>
+                  <input
+                    id="order-date"
+                    type="date"
+                    value={form.deliveryDate}
+                    onChange={handleChange("deliveryDate")}
+                    min={new Date().toISOString().slice(0, 10)}
+                  />
+                </div>
 
-              <button className="orders-btn">Enviar Pedido</button>
-            </div>
+                <div className="orders-field orders-field-full">
+                  <label htmlFor="order-notes">Observações</label>
+                  <textarea
+                    id="order-notes"
+                    placeholder="Sabores, quantidade, ocasião especial..."
+                    rows={4}
+                    value={form.notes}
+                    onChange={handleChange("notes")}
+                  />
+                </div>
+
+                <button className="orders-btn" type="submit" disabled={status === "sending"}>
+                  {status === "sending" ? "Enviando..." : "Enviar Pedido"}
+                </button>
+              </form>
+            )}
           </div>
 
         </div>

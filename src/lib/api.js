@@ -104,6 +104,16 @@ export const api = {
   adminGetOrder: (id) => request("GET", `/admin/orders/${id}`),
   adminConfirmOrder: (id) => request("POST", `/admin/orders/${id}/confirm`),
   adminDenyOrder: (id) => request("POST", `/admin/orders/${id}/deny`),
+
+  // ---------- pedidos de contato ("Faça sua Encomenda", sem login) ----------
+  createOrderRequest: (dados) => request("POST", "/order-requests", dados),
+  adminListOrderRequests: (params = {}) => {
+    const qs = new URLSearchParams();
+    if (params.page) qs.set("page", params.page);
+    if (params.perPage) qs.set("perPage", params.perPage);
+    const q = qs.toString();
+    return request("GET", `/admin/order-requests${q ? `?${q}` : ""}`);
+  },
 };
 
 export { BASE as API_BASE };

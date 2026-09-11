@@ -317,6 +317,39 @@
   background: #4a1a28;
 }
 
+.orders-btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.orders-error {
+  background: #fdecec;
+  border: 1px solid #f4bcbc;
+  color: #a12626;
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 15px;
+}
+
+.orders-success {
+  text-align: center;
+  padding: 20px 0;
+}
+.orders-success h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  color: #2d1018;
+  margin: 0 0 10px;
+}
+.orders-success p {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px;
+  color: rgba(45, 16, 24, 0.7);
+  line-height: 1.6;
+  margin: 0 0 24px;
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
   .orders-hero-body,
