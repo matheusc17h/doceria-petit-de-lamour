@@ -29,7 +29,9 @@ function Header() {
   const [results, setResults] = useState([]);
   const [searching, setSearching] = useState(false);
   const [resultsOpen, setResultsOpen] = useState(false);
+  const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
   const searchRef = useRef(null);
+  const searchInputRef = useRef(null);
   const debounceRef = useRef(null);
 
   useEffect(() => {
@@ -53,11 +55,12 @@ function Header() {
     return () => document.removeEventListener("mousedown", onClick);
   }, []);
 
-  // fecha a lista de resultados da busca ao clicar fora
+  // fecha a lista de resultados (e a busca expandida do mobile) ao clicar fora
   useEffect(() => {
     function onClick(e) {
       if (searchRef.current && !searchRef.current.contains(e.target)) {
         setResultsOpen(false);
+        setMobileSearchOpen(false);
       }
     }
     document.addEventListener("mousedown", onClick);
@@ -91,7 +94,21 @@ function Header() {
 
   function goToSearch(term) {
     setResultsOpen(false);
+    setMobileSearchOpen(false);
     navigate(`/produtos?busca=${encodeURIComponent(term)}`);
+  }
+
+  // no mobile a busca começa colapsada (só o ícone); tocar nela expande o
+  // campo de texto e foca. Em telas largas o campo já fica sempre visível,
+  // então o clique só garante o foco.
+  function handleSearchIconClick() {
+    setMobileSearchOpen((open) => {
+      const next = !open;
+      if (next) {
+        setTimeout(() => searchInputRef.current?.focus(), 0);
+      }
+      return next;
+    });
   }
 
   function handleSearchSubmit(e) {
@@ -136,10 +153,18 @@ function Header() {
         </nav>
 
         <div className="header-actions">
-          <div className="header-search-wrap" ref={searchRef}>
+          <div className={`header-search-wrap ${mobileSearchOpen ? "header-search-wrap--open" : ""}`} ref={searchRef}>
             <form className="header-search" onSubmit={handleSearchSubmit}>
-              <i className="fa-solid fa-magnifying-glass"></i>
+              <button
+                type="button"
+                className="header-search-icon-btn"
+                aria-label="Buscar"
+                onClick={handleSearchIconClick}
+              >
+                <i className="fa-solid fa-magnifying-glass"></i>
+              </button>
               <input
+                ref={searchInputRef}
                 type="text"
                 placeholder="Buscar sabor, bolo, ovo..."
                 value={query}

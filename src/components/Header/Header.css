@@ -104,6 +104,18 @@
     font-size: 13px;
 }
 
+.header-search-icon-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
 .header-search input {
     border: none;
     outline: none;
@@ -335,6 +347,33 @@
 
     .header-search i {
         font-size: 15px;
+    }
+
+    /* toca no ícone -> campo expande num balão flutuante abaixo do header,
+       já que no colapsado (círculo de 38px) não cabe texto nenhum */
+    .header-search-wrap--open .header-search {
+        position: fixed;
+        top: 70px;
+        left: 12px;
+        right: 12px;
+        width: auto;
+        height: 46px;
+        border-radius: 999px;
+        padding: 0 18px;
+        justify-content: flex-start;
+        box-shadow: 0 12px 30px rgba(45, 16, 24, 0.2);
+        z-index: 50;
+    }
+
+    .header-search-wrap--open .header-search input {
+        display: block;
+    }
+
+    .header-search-wrap--open .header-search-results {
+        position: fixed;
+        top: 122px;
+        left: 12px;
+        right: 12px;
     }
 
     .header-menu-toggle {
