@@ -141,6 +141,14 @@ function Header() {
         </Link>
 
         <nav className={`nav-links ${menuOpen ? "nav-links--open" : ""}`}>
+          <button
+            type="button"
+            className="nav-links-close"
+            aria-label="Fechar menu"
+            onClick={closeMenu}
+          >
+            <i className="fa-solid fa-xmark"></i>
+          </button>
           <ul>
             <li><NavLink to="/" end onClick={closeMenu}>Início</NavLink></li>
             <li><NavLink to="/produtos" onClick={closeMenu}>Nosso Cardápio</NavLink></li>
