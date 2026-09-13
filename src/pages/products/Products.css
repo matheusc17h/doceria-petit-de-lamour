@@ -200,6 +200,9 @@
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 10px;
+  /* compensa o header sticky (~72px) pra quando a busca rolar a página até
+     aqui o banner não ficar escondido atrás dele */
+  scroll-margin-top: 90px;
 }
 .products-search-banner p {
   margin: 0;

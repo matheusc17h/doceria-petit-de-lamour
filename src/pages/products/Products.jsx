@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import "./Products.css";
 import { useCart } from "../../context/CartContext";
@@ -94,6 +94,15 @@ function Products() {
   const [products, setProducts] = useState([]);
   const [status, setStatus] = useState("loading"); // loading | ok | error
   const [errorMsg, setErrorMsg] = useState("");
+  const resultsRef = useRef(null);
+
+  // veio de uma busca (header ou link direto) -> pula a hero/marquee e vai
+  // direto pro resultado, em vez de deixar a pessoa descer a página à mão
+  useEffect(() => {
+    if (search.trim() && status === "ok" && resultsRef.current) {
+      resultsRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [search, status]);
 
   useEffect(() => {
     let cancelled = false;
@@ -180,7 +189,7 @@ function Products() {
       </section>
 
       {search.trim() && status !== "loading" && (
-        <div className="products-search-banner">
+        <div className="products-search-banner" ref={resultsRef}>
           <p>
             Resultados para <strong>"{search.trim()}"</strong>
           </p>
