@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Home.css";
 import coneImg from "../../img/cone-img.png";
 import home2 from "../../img/home2.png";
@@ -11,6 +12,7 @@ import bolosImg from "../../img/bolos.png";
 import { gsap, ScrollTrigger, SplitText } from "../../lib/gsap";
 
 function Home() {
+  const navigate = useNavigate();
   const tagRef = useRef(null);
   const titleRef = useRef(null);
   const descRef = useRef(null);
@@ -272,7 +274,7 @@ function Home() {
               <li><strong>Ninho com Nutella:</strong> Sabor suave do leite em pó com a cremosidade da Nutella.</li>
               <li><strong>Cookies & Cream:</strong> Chocolate branco com pedaços crocantes de biscoito.</li>
             </ul>
-            <button>Ver mais sabores</button>
+            <button onClick={() => navigate("/produtos?categoria=cones")}>Ver mais sabores</button>
           </div>
         </div>
 
@@ -285,7 +287,7 @@ function Home() {
               <li><strong>Prestígio:</strong> Chocolate ao leite recheado com creme suave de coco.</li>
               <li><strong>Ninho com Morango:</strong> Leite em pó cremoso com pedaços de morango.</li>
             </ul>
-            <button>Ver mais sabores</button>
+            <button onClick={() => navigate("/produtos?categoria=ovos")}>Ver mais sabores</button>
           </div>
         </div>
 
@@ -298,7 +300,7 @@ function Home() {
               <li><strong>Ninho com Morango:</strong> Massa branca com creme de leite ninho e morango.</li>
               <li><strong>Cenoura com Chocolate:</strong> Clássico bolo de cenoura com cobertura de chocolate.</li>
             </ul>
-            <button>Ver mais sabores</button>
+            <button onClick={() => navigate("/produtos?categoria=bolos")}>Ver mais sabores</button>
           </div>
         </div>
       </section>

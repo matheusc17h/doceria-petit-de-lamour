@@ -90,11 +90,13 @@ function ProductCard({ product }) {
 function Products() {
   const [searchParams, setSearchParams] = useSearchParams();
   const search = searchParams.get("busca") ?? "";
+  const category = searchParams.get("categoria") ?? "";
 
   const [products, setProducts] = useState([]);
   const [status, setStatus] = useState("loading"); // loading | ok | error
   const [errorMsg, setErrorMsg] = useState("");
   const resultsRef = useRef(null);
+  const sectionRefs = useRef({});
 
   // veio de uma busca (header ou link direto) -> pula a hero/marquee e vai
   // direto pro resultado, em vez de deixar a pessoa descer a página à mão
@@ -103,6 +105,14 @@ function Products() {
       resultsRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   }, [search, status]);
+
+  // veio de um "Ver mais sabores" da home (?categoria=cones/bolos/ovos) ->
+  // pula direto pra aquela seção do cardápio, sem precisar rolar à mão
+  useEffect(() => {
+    if (category && status === "ok" && sectionRefs.current[category]) {
+      sectionRefs.current[category].scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [category, status]);
 
   useEffect(() => {
     let cancelled = false;
@@ -235,6 +245,9 @@ function Products() {
           return (
             <section
               key={section.key}
+              ref={(el) => {
+                sectionRefs.current[section.key] = el;
+              }}
               className={`products-section ${section.alt ? "products-section-alt" : ""}`}
             >
               {section.alt && (
