@@ -85,7 +85,14 @@ function Footer() {
             >
               Instagram
             </a>
-            <a href="#" className="footer-link">WhatsApp</a>
+            <a
+              href="https://wa.me/5511945929283"
+              target="_blank"
+              rel="noreferrer"
+              className="footer-link"
+            >
+              WhatsApp
+            </a>
           </div>
 
           <div className="footer-col">
