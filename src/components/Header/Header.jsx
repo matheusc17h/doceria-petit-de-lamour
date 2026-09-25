@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import "./Header.css";
 import { Link, NavLink, useNavigate, useSearchParams } from "react-router-dom";
-import logo from '../../img/logoreal.jpg'
+import logo from '../../img/logo.png'
 import { useCart } from "../../context/CartContext";
 import { useAuth } from "../../context/AuthContext";
 import { api } from "../../lib/api";

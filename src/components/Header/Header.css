@@ -42,11 +42,8 @@
 }
 
 .logo img {
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    object-fit: cover;
-    box-shadow: 0 2px 8px rgba(45, 16, 24, 0.15);
+    width: 130px;
+    height: auto;
 }
 
 .nav-links ul {
@@ -308,8 +305,8 @@
     }
 
     .logo img {
-        width: 46px;
-        height: 46px;
+        width: 104px;
+        height: auto;
     }
 
     .nav-links {

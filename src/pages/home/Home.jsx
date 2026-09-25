@@ -9,6 +9,9 @@ import home5 from "../../img/home5.png";
 import conesImg from "../../img/cones.png";
 import ovosImg from "../../img/ovos.png";
 import bolosImg from "../../img/bolos.png";
+import coneKinder from "../../img/cone-kinder.png";
+import coneOuroBranco from "../../img/cone-ourob.png";
+import coneOvomaltine from "../../img/cone-ovomaltine.png";
 import { gsap, ScrollTrigger, SplitText } from "../../lib/gsap";
 
 function Home() {
@@ -172,6 +175,11 @@ function Home() {
         <div className="hero-glow hero-glow-1" />
         <div className="hero-glow hero-glow-2" />
         <div className="hero-glow hero-glow-3" />
+
+        {/* Cones reais flutuando no fundo — decoração, não competem com o conteúdo */}
+        <img src={coneOvomaltine} alt="" className="hero-float-cone hero-float-cone-1" aria-hidden="true" />
+        <img src={coneOuroBranco} alt="" className="hero-float-cone hero-float-cone-2" aria-hidden="true" />
+        <img src={coneKinder} alt="" className="hero-float-cone hero-float-cone-3" aria-hidden="true" />
 
         {/* Decorações de fundo */}
         <div className="hero-deco hero-deco-1" />
