@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import "../../styles/decor.css";
 import "./Home.css";
 import coneImg from "../../img/cone-img.png";
 import home2 from "../../img/home2.png";

@@ -311,12 +311,12 @@
    deixava uma sobra enorme de espaço rosa vazio acima/abaixo */
 @media (min-width: 769px) {
   .hero {
-    /* exatamente uma tela: nem sobra espaço vazio além dela (min-height:100vh
-       puro deixava crescer mais que isso conforme o conteúdo), nem falta
-       (por isso o piso de 640px em janelas bem baixas) — assim o primeiro
-       scroll já revela a próxima seção, sem ficar "preso" dentro do hero */
-    height: 100vh;
-    min-height: 640px;
+    /* aviso (36px) + menu (72px) + hero + faixa marrom (.differentials,
+       46px) juntos preenchem exatamente a primeira tela — assim a faixa
+       marrom também aparece inteira sem rolar, e só o próximo scroll
+       revela o cardápio (2ª seção) */
+    height: calc(100vh - 154px);
+    min-height: 460px;
   }
 
   .hero-body {
