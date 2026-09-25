@@ -274,6 +274,9 @@ function Home() {
         <img src={coneOuroBranco} alt="" className="floating-cone produtos-float-cone" aria-hidden="true" />
 
         <h2 className="produtos-title" ref={produtosTitleRef}>Conheça nossas especialidades:</h2>
+        <p className="produtos-subtitle">
+          Cones trufados, bolos artesanais e ovos de páscoa feitos à mão, com ingredientes selecionados e muito carinho em cada detalhe.
+        </p>
 
         <div className="produto-card">
 
