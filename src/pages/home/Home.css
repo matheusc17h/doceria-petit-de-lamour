@@ -267,6 +267,19 @@
   z-index: 1;
 }
 
+/* no desktop o conteúdo lado a lado é bem mais baixo que a tela toda —
+   min-height:100vh (regra base, pensada pro empilhamento do mobile)
+   deixava uma sobra enorme de espaço rosa vazio acima/abaixo */
+@media (min-width: 769px) {
+  .hero {
+    min-height: 0;
+  }
+
+  .hero-body {
+    padding: 72px 100px;
+  }
+}
+
 /* ===== HERO CONTENT ===== */
 .hero-content {
   flex: 1;
