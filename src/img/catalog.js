@@ -10,6 +10,18 @@ import bolo1 from "./bolo1.png";
 import bolo2 from "./bolo2.png";
 import bolo3 from "./bolo3.png";
 import placeholder from "./logoreal.jpg";
+// Fotos geradas por IA (mesmo estilo/fundo das fotos reais) pros sabores
+// que ainda não tinham foto de verdade — trocar por foto real assim que
+// tiver, é só substituir o arquivo e manter o mesmo nome.
+import coneCookiesCream from "./cone-cookies-cream.jpg";
+import conePrestigio from "./cone-prestigio.jpg";
+import coneMaracuja from "./cone-maracuja.jpg";
+import coneMorango from "./cone-morango.jpg";
+import ovoBrigadeiro from "./ovo-brigadeiro.jpg";
+import ovoPrestigio from "./ovo-prestigio.jpg";
+import ovoNinhoMorango from "./ovo-ninho-morango.jpg";
+import ovoKinder from "./ovo-kinder.jpg";
+import boloBaunilha from "./bolo-baunilha.jpg";
 
 const MAP = {
   "cone-kinder.png": coneKinder,
@@ -20,6 +32,15 @@ const MAP = {
   "bolo2.png": bolo2,
   "bolo3.png": bolo3,
   "logo2.png": placeholder,
+  "cone-cookies-cream.jpg": coneCookiesCream,
+  "cone-prestigio.jpg": conePrestigio,
+  "cone-maracuja.jpg": coneMaracuja,
+  "cone-morango.jpg": coneMorango,
+  "ovo-brigadeiro.jpg": ovoBrigadeiro,
+  "ovo-prestigio.jpg": ovoPrestigio,
+  "ovo-ninho-morango.jpg": ovoNinhoMorango,
+  "ovo-kinder.jpg": ovoKinder,
+  "bolo-baunilha.jpg": boloBaunilha,
 };
 
 export function imageFor(name) {
