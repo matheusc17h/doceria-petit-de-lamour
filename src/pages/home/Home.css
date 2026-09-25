@@ -311,11 +311,16 @@
    deixava uma sobra enorme de espaço rosa vazio acima/abaixo */
 @media (min-width: 769px) {
   .hero {
-    min-height: 0;
+    /* exatamente uma tela: nem sobra espaço vazio além dela (min-height:100vh
+       puro deixava crescer mais que isso conforme o conteúdo), nem falta
+       (por isso o piso de 640px em janelas bem baixas) — assim o primeiro
+       scroll já revela a próxima seção, sem ficar "preso" dentro do hero */
+    height: 100vh;
+    min-height: 640px;
   }
 
   .hero-body {
-    padding: 72px 100px;
+    padding: 48px 100px;
   }
 }
 
