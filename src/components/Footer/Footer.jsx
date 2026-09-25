@@ -1,6 +1,8 @@
 import { useState } from "react";
+import "../../styles/decor.css";
 import "./Footer.css";
 import logo1 from "../../img/logoreal.jpg";
+import coneOvomaltine from "../../img/cone-ovomaltine.png";
 import { api } from "../../lib/api";
 
 function Footer() {
@@ -26,6 +28,7 @@ function Footer() {
     <>
       {/* NEWSLETTER */}
       <section className="footer-newsletter">
+        <img src={coneOvomaltine} alt="" className="floating-cone footer-float-cone" aria-hidden="true" />
         <div className="footer-newsletter-body">
           <div className="footer-newsletter-text">
             <span className="footer-tag">Exclusivo</span>

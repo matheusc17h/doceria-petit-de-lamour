@@ -51,41 +51,46 @@
   opacity: 0.5;
 }
 
-/* ===== CONES FLUTUANTES (fundo decorativo) ===== */
-.hero-float-cone {
-  position: absolute;
-  z-index: 0;
-  pointer-events: none;
-  filter: drop-shadow(0 18px 24px rgba(45, 16, 24, 0.18));
-  opacity: 0.85;
-}
-
+/* ===== CONES FLUTUANTES (fundo decorativo) =====
+   A animação em si (.floating-cone) vem de src/styles/decor.css —
+   aqui só a posição e o "sotaque" (ângulo/velocidade/atraso) de cada
+   cone, pra cada um boiar no seu próprio ritmo. */
 .hero-float-cone-1 {
   width: 88px;
   top: 96px;
   left: 2.5%;
-  transform: rotate(-12deg);
+  opacity: 0.85;
+  --r: -12deg;
+  --dur: 7.5s;
+  --delay: 0s;
 }
 
 .hero-float-cone-2 {
   width: 78px;
   bottom: 54px;
   left: 3.5%;
-  transform: rotate(13deg);
+  opacity: 0.85;
+  --r: 13deg;
+  --dur: 9s;
+  --delay: 1.4s;
 }
 
 .hero-float-cone-3 {
   width: 120px;
   top: 24px;
   right: 6%;
-  transform: rotate(16deg);
   opacity: 0.7;
+  --r: 16deg;
+  --dur: 8.2s;
+  --delay: 0.7s;
 }
 
 @media (max-width: 1350px) {
   /* abaixo do breakpoint do header, o texto usa toda a largura disponível
      e essas margens de segurança deixam de existir */
-  .hero-float-cone {
+  .hero-float-cone-1,
+  .hero-float-cone-2,
+  .hero-float-cone-3 {
     display: none;
   }
 }
@@ -648,6 +653,22 @@
   left: 4%;
   font-size: 14px;
   animation-delay: 2s;
+}
+
+.produtos-float-cone {
+  width: 70px;
+  top: 18px;
+  right: 3%;
+  opacity: 0.55;
+  --r: 10deg;
+  --dur: 8.6s;
+  --delay: 2.1s;
+}
+
+@media (max-width: 900px) {
+  .produtos-float-cone {
+    display: none;
+  }
 }
 
 .produto-card {

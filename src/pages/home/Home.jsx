@@ -178,9 +178,9 @@ function Home() {
         <div className="hero-glow hero-glow-3" />
 
         {/* Cones reais flutuando no fundo — decoração, não competem com o conteúdo */}
-        <img src={coneOvomaltine} alt="" className="hero-float-cone hero-float-cone-1" aria-hidden="true" />
-        <img src={coneOuroBranco} alt="" className="hero-float-cone hero-float-cone-2" aria-hidden="true" />
-        <img src={coneKinder} alt="" className="hero-float-cone hero-float-cone-3" aria-hidden="true" />
+        <img src={coneOvomaltine} alt="" className="floating-cone hero-float-cone-1" aria-hidden="true" />
+        <img src={coneOuroBranco} alt="" className="floating-cone hero-float-cone-2" aria-hidden="true" />
+        <img src={coneKinder} alt="" className="floating-cone hero-float-cone-3" aria-hidden="true" />
 
         {/* Decorações de fundo */}
         <div className="hero-deco hero-deco-1" />
@@ -270,6 +270,7 @@ function Home() {
         <div className="bg-blob bg-blob--ring bg-blob--pulse produtos-deco-2" />
         <div className="bg-dots produtos-deco-3" />
         <div className="bg-spark produtos-deco-4">✦</div>
+        <img src={coneOuroBranco} alt="" className="floating-cone produtos-float-cone" aria-hidden="true" />
 
         <h2 className="produtos-title" ref={produtosTitleRef}>Conheça nossas especialidades:</h2>
 

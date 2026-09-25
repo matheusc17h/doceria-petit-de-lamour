@@ -13,6 +13,29 @@
 .footer-newsletter {
   background-color: #2d1018;
   padding: 80px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.footer-float-cone {
+  /* centralizado verticalmente via margin (não transform: a animação
+     de flutuar já usa transform, e uma segunda declaração sobrescreveria
+     essa em vez de somar) */
+  width: 84px;
+  top: 50%;
+  margin-top: -40px;
+  right: 4%;
+  opacity: 0.5;
+  filter: drop-shadow(0 14px 20px rgba(0, 0, 0, 0.35));
+  --r: -10deg;
+  --dur: 8s;
+  --delay: 0.5s;
+}
+
+@media (max-width: 1100px) {
+  .footer-float-cone {
+    display: none;
+  }
 }
 
 .footer-newsletter-body {
