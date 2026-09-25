@@ -13,15 +13,15 @@ import placeholder from "./logoreal.jpg";
 // Fotos geradas por IA (mesmo estilo/fundo das fotos reais) pros sabores
 // que ainda não tinham foto de verdade — trocar por foto real assim que
 // tiver, é só substituir o arquivo e manter o mesmo nome.
-import coneCookiesCream from "./cone-cookies-cream.jpg";
-import conePrestigio from "./cone-prestigio.jpg";
-import coneMaracuja from "./cone-maracuja.jpg";
-import coneMorango from "./cone-morango.jpg";
-import ovoBrigadeiro from "./ovo-brigadeiro.jpg";
-import ovoPrestigio from "./ovo-prestigio.jpg";
-import ovoNinhoMorango from "./ovo-ninho-morango.jpg";
-import ovoKinder from "./ovo-kinder.jpg";
-import boloBaunilha from "./bolo-baunilha.jpg";
+import coneCookiesCream from "./cone-cookies-cream.png";
+import conePrestigio from "./cone-prestigio.png";
+import coneMaracuja from "./cone-maracuja.png";
+import coneMorango from "./cone-morango.png";
+import ovoBrigadeiro from "./ovo-brigadeiro.png";
+import ovoPrestigio from "./ovo-prestigio.png";
+import ovoNinhoMorango from "./ovo-ninho-morango.png";
+import ovoKinder from "./ovo-kinder.png";
+import boloBaunilha from "./bolo-baunilha.png";
 
 const MAP = {
   "cone-kinder.png": coneKinder,
@@ -32,15 +32,15 @@ const MAP = {
   "bolo2.png": bolo2,
   "bolo3.png": bolo3,
   "logo2.png": placeholder,
-  "cone-cookies-cream.jpg": coneCookiesCream,
-  "cone-prestigio.jpg": conePrestigio,
-  "cone-maracuja.jpg": coneMaracuja,
-  "cone-morango.jpg": coneMorango,
-  "ovo-brigadeiro.jpg": ovoBrigadeiro,
-  "ovo-prestigio.jpg": ovoPrestigio,
-  "ovo-ninho-morango.jpg": ovoNinhoMorango,
-  "ovo-kinder.jpg": ovoKinder,
-  "bolo-baunilha.jpg": boloBaunilha,
+  "cone-cookies-cream.png": coneCookiesCream,
+  "cone-prestigio.png": conePrestigio,
+  "cone-maracuja.png": coneMaracuja,
+  "cone-morango.png": coneMorango,
+  "ovo-brigadeiro.png": ovoBrigadeiro,
+  "ovo-prestigio.png": ovoPrestigio,
+  "ovo-ninho-morango.png": ovoNinhoMorango,
+  "ovo-kinder.png": ovoKinder,
+  "bolo-baunilha.png": boloBaunilha,
 };
 
 export function imageFor(name) {
