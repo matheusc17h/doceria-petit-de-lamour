@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../styles/decor.css";
 import "./Home.css";
@@ -22,7 +22,8 @@ function Home() {
   const descRef = useRef(null);
   const actionsRef = useRef(null);
   const statsRef = useRef(null);
-  const heroImgRef = useRef(null);
+  const heroPhotos = [coneImg, home2, home3, home4, home5];
+  const [heroPhotoIndex, setHeroPhotoIndex] = useState(0);
   const produtosRef = useRef(null);
   const produtosTitleRef = useRef(null);
 
@@ -87,27 +88,11 @@ function Home() {
   }, []);
 
   useEffect(() => {
-    const el = heroImgRef.current;
-    const original = el.src;
-
-    const photos = [home2, home3, home4, home5];
-    const sequence = [...photos, original]; // depois da última foto, volta pra a original (a que já estava no site)
-
-    const tl = gsap.timeline({ repeat: -1 });
-
-    sequence.forEach((src) => {
-      tl.to(el, { rotateY: "+=180", duration: 0.8, ease: "sine.inOut" })
-        .call(() => { el.src = src; }) // troca acontece de costas pra câmera, invisível
-        .to(el, { rotateY: "+=180", duration: 0.8, ease: "sine.inOut" })
-        .to({}, { duration: 1.5 }); // pausa parada antes da próxima volta
-    });
-
-    return () => {
-      tl.kill();
-      el.src = original;
-      gsap.set(el, { clearProps: "transform" });
-    };
-  }, []);
+    const id = setInterval(() => {
+      setHeroPhotoIndex((i) => (i + 1) % heroPhotos.length);
+    }, 3200);
+    return () => clearInterval(id);
+  }, [heroPhotos.length]);
 
   useEffect(() => {
     const cards = produtosRef.current.querySelectorAll(".produto-card");
@@ -238,12 +223,28 @@ function Home() {
 
           <div className="hero-image-wrap">
             <div className="hero-image-border">
-              <img
-                ref={heroImgRef}
-                src={coneImg}
-                alt="Doce em destaque"
-                className="hero-image"
-              />
+              {heroPhotos.map((src, i) => (
+                <img
+                  key={src}
+                  src={src}
+                  alt={i === 0 ? "Doce em destaque" : ""}
+                  aria-hidden={i !== 0}
+                  className={`hero-image ${i === heroPhotoIndex ? "hero-image--active" : ""}`}
+                />
+              ))}
+            </div>
+            <div className="hero-carousel-dots" role="tablist" aria-label="Fotos em destaque">
+              {heroPhotos.map((src, i) => (
+                <button
+                  key={src}
+                  type="button"
+                  role="tab"
+                  aria-selected={i === heroPhotoIndex}
+                  aria-label={`Ver foto ${i + 1}`}
+                  className={`hero-carousel-dot ${i === heroPhotoIndex ? "hero-carousel-dot--active" : ""}`}
+                  onClick={() => setHeroPhotoIndex(i)}
+                />
+              ))}
             </div>
           </div>
 

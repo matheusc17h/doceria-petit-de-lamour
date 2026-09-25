@@ -458,7 +458,9 @@
   position: relative;
   max-width: 400px;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
   transition: transform 0.3s ease;
 }
 
@@ -467,15 +469,14 @@
 }
 
 .hero-image-border {
+  position: relative;
   width: 400px;
   height: 400px;
   border-radius: 50%;
   border: 3px solid #fdf6f0;
-  padding: 8px;
   overflow: hidden;
   background: #fdf6f0;
   box-shadow: 0 20px 60px rgba(45, 16, 24, 0.2);
-  perspective: 1000px;
 }
 
 .produto-card{
@@ -483,14 +484,48 @@
   background-color: #fdf6f0;
 }
 
+/* carrossel: as fotos ficam todas empilhadas, só a ativa fica visível —
+   troca com um fade suave em vez de corte seco */
 .hero-image {
-  width: 100%;
-  height: 100%;
+  position: absolute;
+  inset: 8px;
+  width: calc(100% - 16px);
+  height: calc(100% - 16px);
   border-radius: 50%;
   object-fit: cover;
   display: block;
-  backface-visibility: hidden;
-  transform-style: preserve-3d;
+  opacity: 0;
+  transition: opacity 0.9s ease;
+}
+
+.hero-image--active {
+  opacity: 1;
+  z-index: 1;
+}
+
+.hero-carousel-dots {
+  display: flex;
+  gap: 9px;
+}
+
+.hero-carousel-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  padding: 0;
+  background: rgba(45, 16, 24, 0.22);
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.hero-carousel-dot:hover {
+  background: rgba(45, 16, 24, 0.4);
+}
+
+.hero-carousel-dot--active {
+  background: #b5365a;
+  transform: scale(1.25);
 }
 
 .hero-price-tag {
