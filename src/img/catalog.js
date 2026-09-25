@@ -9,7 +9,7 @@ import coneFerrero from "./cone-ferrero1.png";
 import bolo1 from "./bolo1.png";
 import bolo2 from "./bolo2.png";
 import bolo3 from "./bolo3.png";
-import placeholder from "./logo2.png";
+import placeholder from "./logoreal.jpg";
 
 const MAP = {
   "cone-kinder.png": coneKinder,

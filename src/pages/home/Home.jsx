@@ -221,7 +221,7 @@ function Home() {
             </div>
 
             <p className="hero-signature" ref={statsRef}>
-              Mais de <strong>500 doces</strong> feitos à mão, um de cada vez —
+              Cada doce <strong>feito à mão</strong>, um de cada vez —
               <span className="hero-signature-name"> com carinho, Petit de L'Amour</span>.
             </p>
 

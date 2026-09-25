@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import "./Header.css";
 import { Link, NavLink, useNavigate, useSearchParams } from "react-router-dom";
-import logo from '../../img/logo.png'
+import logo from '../../img/logoreal.jpg'
 import { useCart } from "../../context/CartContext";
 import { useAuth } from "../../context/AuthContext";
 import { api } from "../../lib/api";
@@ -128,7 +128,7 @@ function Header() {
   return (
     <>
       <div className="header-announce">
-        <span>Entrega Refrigerada</span>
+        <span>Confeitaria Artesanal</span>
         <span className="header-announce-diamond">♦</span>
         <span>Frete Grátis acima de R$ 150</span>
         <span className="header-announce-diamond">♦</span>

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./Footer.css";
-import logo1 from "../../img/logo1.png";
+import logo1 from "../../img/logoreal.jpg";
 import { api } from "../../lib/api";
 
 function Footer() {
