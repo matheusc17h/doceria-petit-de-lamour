@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../styles/decor.css";
 import "./Home.css";
@@ -23,7 +23,7 @@ function Home() {
   const actionsRef = useRef(null);
   const statsRef = useRef(null);
   const heroPhotos = [coneImg, home2, home3, home4, home5];
-  const [heroPhotoIndex, setHeroPhotoIndex] = useState(0);
+  const heroPhotoRefs = useRef([]);
   const produtosRef = useRef(null);
   const produtosTitleRef = useRef(null);
 
@@ -87,11 +87,39 @@ function Home() {
     };
   }, []);
 
+  // carrossel do hero: cada foto entra de uma direção diferente (some
+  // entram da direita, outras de baixo, de cima...), ganhando opacidade
+  // conforme chega na posição, fica parada um instante e sai — nunca a
+  // mesma direção duas vezes seguidas, pra não ficar mecânico/repetitivo.
   useEffect(() => {
-    const id = setInterval(() => {
-      setHeroPhotoIndex((i) => (i + 1) % heroPhotos.length);
-    }, 3200);
-    return () => clearInterval(id);
+    const els = heroPhotoRefs.current.filter(Boolean);
+    if (els.length === 0) return;
+
+    const DIST = 90;
+    // [de onde entra] -> [pra onde sai]
+    const moves = [
+      { from: { x: DIST, y: 0 }, to: { x: 0, y: -DIST } }, // direita -> some pra cima
+      { from: { x: 0, y: DIST }, to: { x: 0, y: 0 } }, // baixo -> some no lugar
+      { from: { x: 0, y: -DIST }, to: { x: 0, y: 0 } }, // cima -> some no lugar
+      { from: { x: -DIST, y: 0 }, to: { x: 0, y: DIST } }, // esquerda -> some pra baixo
+      { from: { x: DIST * 0.7, y: -DIST * 0.7 }, to: { x: -DIST * 0.7, y: DIST * 0.7 } }, // diagonal
+    ];
+
+    gsap.set(els, { opacity: 0 });
+
+    const tl = gsap.timeline({ repeat: -1 });
+    els.forEach((el, i) => {
+      const { from, to } = moves[i % moves.length];
+      tl.set(el, { x: from.x, y: from.y, opacity: 0, zIndex: 1 })
+        .to(el, { x: 0, y: 0, opacity: 1, duration: 0.9, ease: "power2.out" })
+        .to({}, { duration: 1.7 }) // fica parada, visível
+        .to(el, { x: to.x, y: to.y, opacity: 0, duration: 0.7, ease: "power1.in" });
+    });
+
+    return () => {
+      tl.kill();
+      gsap.set(els, { clearProps: "transform,opacity,zIndex" });
+    };
   }, [heroPhotos.length]);
 
   useEffect(() => {
@@ -226,23 +254,11 @@ function Home() {
               {heroPhotos.map((src, i) => (
                 <img
                   key={src}
+                  ref={(el) => { heroPhotoRefs.current[i] = el; }}
                   src={src}
                   alt={i === 0 ? "Doce em destaque" : ""}
                   aria-hidden={i !== 0}
-                  className={`hero-image ${i === heroPhotoIndex ? "hero-image--active" : ""}`}
-                />
-              ))}
-            </div>
-            <div className="hero-carousel-dots" role="tablist" aria-label="Fotos em destaque">
-              {heroPhotos.map((src, i) => (
-                <button
-                  key={src}
-                  type="button"
-                  role="tab"
-                  aria-selected={i === heroPhotoIndex}
-                  aria-label={`Ver foto ${i + 1}`}
-                  className={`hero-carousel-dot ${i === heroPhotoIndex ? "hero-carousel-dot--active" : ""}`}
-                  onClick={() => setHeroPhotoIndex(i)}
+                  className="hero-image"
                 />
               ))}
             </div>

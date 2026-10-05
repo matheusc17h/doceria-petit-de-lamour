@@ -130,7 +130,7 @@ function Header() {
       <div className="header-announce">
         <span>Confeitaria Artesanal</span>
         <span className="header-announce-diamond">♦</span>
-        <span>Frete Grátis acima de R$ 150</span>
+        <span>Feito com Carinho</span>
         <span className="header-announce-diamond">♦</span>
         <span>Feito sob Encomenda</span>
       </div>

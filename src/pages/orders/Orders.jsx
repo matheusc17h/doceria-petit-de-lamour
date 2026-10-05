@@ -68,13 +68,13 @@ function Orders() {
         <div className="orders-marquee-track">
           <div className="orders-marquee-content">
             <span>encomende agora</span><span className="orders-diamond">♦</span>
-            <span>entrega refrigerada</span><span className="orders-diamond">♦</span>
+            <span>confeitaria artesanal</span><span className="orders-diamond">♦</span>
             <span>feito sob encomenda</span><span className="orders-diamond">♦</span>
-            <span>frete grátis acima de R$ 150</span><span className="orders-diamond">♦</span>
+            <span>feito com carinho</span><span className="orders-diamond">♦</span>
             <span>encomende agora</span><span className="orders-diamond">♦</span>
-            <span>entrega refrigerada</span><span className="orders-diamond">♦</span>
+            <span>confeitaria artesanal</span><span className="orders-diamond">♦</span>
             <span>feito sob encomenda</span><span className="orders-diamond">♦</span>
-            <span>frete grátis acima de R$ 150</span><span className="orders-diamond">♦</span>
+            <span>feito com carinho</span><span className="orders-diamond">♦</span>
           </div>
         </div>
       </section>
