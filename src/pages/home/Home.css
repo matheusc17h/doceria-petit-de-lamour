@@ -599,13 +599,12 @@
   grid-template-columns: repeat(3, 1fr);
   align-content: center;
   gap: 24px;
-  background-color: #fcaec9;
-  padding: 50px 60px;
+  background-color: #fdf6f0;
+  padding: 90px 60px;
   box-sizing: border-box;
   position: relative;
   overflow: hidden;
   text-align: center;
-  min-height: 100vh;
 }
 
 .produtos-title {
