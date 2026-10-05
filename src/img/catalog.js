@@ -6,9 +6,9 @@ import coneKinder from "./cone-kinder.png";
 import coneOvomaltine from "./cone-ovomaltine.png";
 import coneOuroBranco from "./cone-ourob.png";
 import coneFerrero from "./cone-ferrero1.png";
-import bolo1 from "./bolo1.png";
-import bolo2 from "./bolo2.png";
-import bolo3 from "./bolo3.png";
+import bolo1 from "./bolo1.jpg";
+import bolo2 from "./bolo2.jpg";
+import bolo3 from "./bolo3.jpg";
 import placeholder from "./logoreal.jpg";
 // Fotos geradas por IA (mesmo estilo/fundo das fotos reais) pros sabores
 // que ainda não tinham foto de verdade — trocar por foto real assim que
@@ -28,9 +28,9 @@ const MAP = {
   "cone-ovomaltine.png": coneOvomaltine,
   "cone-ourob.png": coneOuroBranco,
   "cone-ferrero1.png": coneFerrero,
-  "bolo1.png": bolo1,
-  "bolo2.png": bolo2,
-  "bolo3.png": bolo3,
+  "bolo1.jpg": bolo1,
+  "bolo2.jpg": bolo2,
+  "bolo3.jpg": bolo3,
   "logo2.png": placeholder,
   "cone-cookies-cream.png": coneCookiesCream,
   "cone-prestigio.png": conePrestigio,
