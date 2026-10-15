@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import "./Header.css";
 import { Link, NavLink, useNavigate, useSearchParams } from "react-router-dom";
-import logo from '../../img/logo.png'
 import { useCart } from "../../context/CartContext";
 import { useAuth } from "../../context/AuthContext";
 import { api } from "../../lib/api";
@@ -136,10 +135,6 @@ function Header() {
       </div>
 
       <header className="header">
-        <Link to="/" className="logo" onClick={closeMenu}>
-          <img src={logo} alt="Petit de L'Amour" />
-        </Link>
-
         <nav className={`nav-links ${menuOpen ? "nav-links--open" : ""}`}>
           <button
             type="button"
