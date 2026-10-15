@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "../../styles/decor.css";
 import "./Footer.css";
-import logo1 from "../../img/logoreal.jpg";
+import logo1 from "../../img/logo-footer.jpg";
 import coneOvomaltine from "../../img/cone-ovomaltine.png";
 import { api } from "../../lib/api";
 
