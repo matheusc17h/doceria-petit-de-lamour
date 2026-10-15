@@ -2,7 +2,7 @@
 
 /* ===== HERO ===== */
 .hero {
-  background-color: #fdf6f0;
+  background-color: #fcaec9;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
@@ -26,7 +26,7 @@
   left: -110px;
   background: linear-gradient(135deg, #ffd7ad 0%, #fcaec9 55%, transparent 100%);
   filter: blur(70px);
-  opacity: 0.22;
+  opacity: 0.6;
 }
 
 .hero-glow-2 {
@@ -37,7 +37,7 @@
   background: radial-gradient(circle at 40% 40%, #ff9fb8 0%, #b5365a 55%, transparent 80%);
   border-radius: 45% 55% 65% 35% / 40% 60% 40% 60%;
   filter: blur(80px);
-  opacity: 0.14;
+  opacity: 0.35;
 }
 
 .hero-glow-3 {
@@ -48,7 +48,7 @@
   background: linear-gradient(160deg, #ffc7a0 0%, #fcaec9 70%, transparent 100%);
   border-radius: 35% 65% 55% 45% / 55% 45% 65% 35%;
   filter: blur(60px);
-  opacity: 0.18;
+  opacity: 0.5;
 }
 
 /* ===== CONES FLUTUANTES (fundo decorativo) =====
@@ -599,7 +599,7 @@
   grid-template-columns: repeat(3, 1fr);
   align-content: center;
   gap: 24px;
-  background-color: #fdf6f0;
+  background-color: #fcaec9;
   padding: 90px 60px;
   box-sizing: border-box;
   position: relative;
